@@ -23,27 +23,74 @@ npm run build
 
 ## Quick Start
 
-1. Copy the example config:
+### 1. Build the Project
+
 ```bash
-cp sql-mcp.config.example.json sql-mcp.config.json
+npm install
+npm run build
 ```
 
-2. Edit `sql-mcp.config.json` with your database credentials
+### 2. Test the Server
 
-3. Start the server:
 ```bash
-npm start
-# or
-node dist/index.js --stdio --config sql-mcp.config.json
+node debug-server.js
 ```
+
+Expected output:
+```
+✅ Server initialized successfully!
+✅ Tools retrieved successfully!
+✅ All tests passed!
+```
+
+### 3. Configure Your MCP Client
+
+**For Claude Desktop / Claude Code**, edit the config file:
+
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+Add this configuration (replace with your actual path):
+
+```json
+{
+  "mcpServers": {
+    "sql-mcp": {
+      "command": "node",
+      "args": [
+        "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js",
+        "--stdio"
+      ],
+      "env": {}
+    }
+  }
+}
+```
+
+**Important**: Use the **absolute path** to your project directory!
+
+### 4. Restart Your MCP Client
+
+Quit and restart Claude Desktop/Code for the changes to take effect.
+
+### 5. Verify Connection
+
+In your MCP client, try using the `list_connections` tool. You should see an empty list.
+
+**Having connection issues?** See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed debugging steps.
 
 ## Configuration
+
+### Database Configuration
 
 The server looks for configuration in this order:
 1. `--config <path>` CLI argument
 2. `./sql-mcp.config.json` (current directory)
 3. `~/.sql-mcp/config.json`
 4. `~/.sql-mcp.config.json`
+
+**Note**: Database configuration is optional. You can connect to databases dynamically using the `connect_database` tool without a config file.
 
 ### Config Format
 
