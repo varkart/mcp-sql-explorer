@@ -14,6 +14,49 @@ Production-grade MCP (Model Context Protocol) server for managing multiple datab
 - **MCP Tools**: 6+ tools for database management and querying
 - **MCP Resources**: Real-time access to connections and query history
 
+## Supported MCP Clients
+
+sql-mcp works with any MCP-compatible client. We provide detailed setup guides for popular clients:
+
+| Client | Platform | Best For | Setup Difficulty |
+|--------|----------|----------|------------------|
+| [Claude Desktop](docs/clients/claude-desktop.md) | macOS, Windows, Linux | General AI chat with database access | ⭐ Easy |
+| [Cline](docs/clients/cline.md) | VS Code | VS Code users, coding assistance | ⭐ Easy |
+| [Cursor](docs/clients/cursor.md) | macOS, Windows, Linux | AI-native code editor | ⭐ Easy |
+| [Windsurf](docs/clients/windsurf.md) | macOS, Windows, Linux | Multi-step flows, Codeium users | ⭐ Easy |
+| [Continue](docs/clients/continue.md) | VS Code, JetBrains | Open-source, IDE integration | ⭐⭐ Medium |
+| [Zed](docs/clients/zed.md) | macOS, Linux | High-performance editing | ⭐ Easy |
+
+**[See all client setup guides →](docs/clients/)**
+
+### Installation Methods
+
+#### Method 1: NPX (Recommended)
+Auto-updates to latest version. Works with all clients:
+```json
+{
+  "mcpServers": {
+    "sql-mcp": {
+      "command": "npx",
+      "args": ["-y", "sql-mcp", "--stdio"]
+    }
+  }
+}
+```
+
+#### Method 2: Local Development
+For contributors or custom modifications:
+```bash
+git clone https://github.com/varkart/sql-mcp.git
+cd sql-mcp
+npm install
+npm run build
+```
+
+Then configure your client with the absolute path to `dist/index.js`.
+
+**Note**: Package name varies by client (`mcpServers`, `context_servers`, etc.). See [client-specific guides](docs/clients/) for exact configuration.
+
 ## Installation
 
 ```bash
@@ -45,30 +88,49 @@ Expected output:
 
 ### 3. Configure Your MCP Client
 
-**For Claude Desktop / Claude Code**, edit the config file:
+sql-mcp works with any MCP-compatible client. Choose your client below for detailed setup instructions:
 
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+#### Supported Clients
 
-Add this configuration (replace with your actual path):
+| Client | Platform | Setup Guide |
+|--------|----------|-------------|
+| **Claude Desktop** | macOS, Windows, Linux | [Setup Guide →](docs/clients/claude-desktop.md) |
+| **Cline** (VS Code) | VS Code Extension | [Setup Guide →](docs/clients/cline.md) |
+| **Cursor** | macOS, Windows, Linux | [Setup Guide →](docs/clients/cursor.md) |
+| **Windsurf** | macOS, Windows, Linux | [Setup Guide →](docs/clients/windsurf.md) |
+| **Continue** | VS Code, JetBrains | [Setup Guide →](docs/clients/continue.md) |
+| **Zed** | macOS, Linux | [Setup Guide →](docs/clients/zed.md) |
 
-```json
-{
-  "mcpServers": {
-    "sql-mcp": {
-      "command": "node",
-      "args": [
-        "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js",
-        "--stdio"
-      ],
-      "env": {}
+**See all clients**: [docs/clients/](docs/clients/) for complete setup guides and configuration examples.
+
+#### Quick Setup Example (Claude Desktop)
+
+For Claude Desktop users, here's a quick example:
+
+- **Config file location**:
+  - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+  - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+  - Linux: `~/.config/Claude/claude_desktop_config.json`
+
+- **Configuration** (replace with your actual path):
+  ```json
+  {
+    "mcpServers": {
+      "sql-mcp": {
+        "command": "node",
+        "args": [
+          "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js",
+          "--stdio"
+        ],
+        "env": {}
+      }
     }
   }
-}
-```
+  ```
 
 **Important**: Use the **absolute path** to your project directory!
+
+For detailed instructions and NPX setup, see the [Claude Desktop Setup Guide](docs/clients/claude-desktop.md).
 
 ### 4. Restart Your MCP Client
 
