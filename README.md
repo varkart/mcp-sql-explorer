@@ -311,6 +311,33 @@ npm run test:unit
 npm test
 ```
 
+### Manual Testing
+
+For manual testing and experimentation, you can use pre-configured test databases:
+
+**Option 1: In-Memory SQLite (Fast, No Docker)**
+```bash
+# Build and run the demo
+npm run build
+npx tsc create-test-db.ts demo-test-db.ts --module nodenext --moduleResolution nodenext --target es2022 --lib es2022 --esModuleInterop
+node demo-test-db.js
+```
+
+**Option 2: Docker Compose (Real Databases)**
+```bash
+# Start all databases (PostgreSQL, MySQL, MariaDB, MSSQL)
+docker-compose up -d
+
+# Seed with test data
+chmod +x seed-databases.sh
+./seed-databases.sh
+
+# Stop when done
+docker-compose down
+```
+
+See [TEST_DATABASE.md](TEST_DATABASE.md) for detailed manual testing instructions and connection configs.
+
 ### Test Structure
 
 The project includes comprehensive unit and integration tests using Testcontainers.
