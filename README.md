@@ -3,28 +3,296 @@
 [![npm version](https://img.shields.io/npm/v/sql-mcp.svg)](https://www.npmjs.com/package/sql-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/sql-mcp.svg)](https://www.npmjs.com/package/sql-mcp)
 [![GitHub stars](https://img.shields.io/github/stars/varkart/sql-mcp?style=social)](https://github.com/varkart/sql-mcp)
+[![Status](https://img.shields.io/badge/status-production--ready-brightgreen)]()
 [![CI](https://github.com/varkart/sql-mcp/workflows/CI/badge.svg)](https://github.com/varkart/sql-mcp/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/MCP-2024--11--05-blue)](https://modelcontextprotocol.io)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
 
-Production-grade MCP (Model Context Protocol) server for managing multiple database connections, translating natural language to SQL, and executing queries across databases with rich visualizations.
+**Talk to your databases in plain English.**
 
-## Features
+Connect Claude, ChatGPT, or any AI assistant directly to PostgreSQL, MySQL, SQLite, and more. Query your data using natural language, explore schemas interactively, and execute SQL safely—all through your favorite AI chat interface.
 
-- **Multi-Database Support**: PostgreSQL, MySQL, SQLite, MSSQL, MariaDB, and Oracle
-- **Natural Language Queries**: Convert natural language questions to SQL using LLM
-- **Cross-Database Queries**: Execute queries across multiple databases with automatic merging
-- **Schema Introspection**: Automatic schema discovery with caching
-- **Security**: Query validation, sandboxing, and read-only mode
-- **Visualization**: ASCII tables and charts for query results
-- **Connection Persistence**: Save and restore connections across sessions
-- **MCP Tools**: 6+ tools for database management and querying
-- **MCP Resources**: Real-time access to connections and query history
+```
+You: "Connect to my PostgreSQL database at localhost"
+AI: ✅ Connected to PostgreSQL
 
-## Supported MCP Clients
+You: "Show me users who signed up this week"
+AI: Found 47 users...
+    [displays formatted results]
 
-sql-mcp works with any MCP-compatible client. We provide detailed setup guides for popular clients:
+You: "What tables are in this database?"
+AI: Your database has 12 tables: users, orders, products...
+```
+
+## Quick Start
+
+Get up and running in under 2 minutes.
+
+### Step 1: Install
+
+**Using NPX** (recommended - auto-updates):
+```bash
+# No installation needed! Use directly:
+npx -y sql-mcp --stdio
+```
+
+**Or install globally:**
+```bash
+npm install -g sql-mcp
+```
+
+### Step 2: Configure Your AI Client
+
+Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "sql-mcp": {
+      "command": "npx",
+      "args": ["-y", "sql-mcp", "--stdio"]
+    }
+  }
+}
+```
+
+<details>
+<summary>📋 Other clients (VS Code, Cursor, etc.)</summary>
+
+**Claude Code (VS Code)**:
+```json
+{
+  "claude.mcpServers": {
+    "sql-mcp": {
+      "command": "npx",
+      "args": ["-y", "sql-mcp", "--stdio"]
+    }
+  }
+}
+```
+
+**Cursor**:
+```json
+{
+  "mcpServers": {
+    "sql-mcp": {
+      "command": "npx",
+      "args": ["-y", "sql-mcp", "--stdio"]
+    }
+  }
+}
+```
+
+See [all client configs →](docs/clients/)
+</details>
+
+### Step 3: Restart & Test
+
+1. **Restart your AI client** completely (quit and reopen)
+2. **Test the connection**:
+   ```
+   You: "Connect to an in-memory SQLite database with ID 'test'"
+   AI: ✅ Connected to SQLite database 'test'
+
+   You: "Create a users table with id, name, and email columns"
+   AI: ✅ Created table 'users'
+
+   You: "Insert 3 sample users"
+   AI: ✅ Inserted 3 users
+
+   You: "Show me all users"
+   AI: [displays formatted table with your data]
+   ```
+
+**Having issues?** See [Troubleshooting Guide](TROUBLESHOOTING.md)
+
+---
+
+## What You Can Do
+
+### 💬 Talk to Databases in Plain English
+```
+"Show me the top 10 customers by revenue this quarter"
+"Which products are running low on inventory?"
+"Find all orders placed in the last 7 days"
+```
+No SQL required—just ask naturally and sql-mcp handles the rest.
+
+### 🔌 Connect to Any Database
+- **PostgreSQL** - Production-grade with full feature support
+- **MySQL / MariaDB** - Popular open-source databases
+- **SQLite** - Perfect for local development and testing
+- **MSSQL** - Microsoft SQL Server integration
+- **Oracle** - Enterprise database support
+
+Manage multiple connections simultaneously, switch between databases seamlessly.
+
+### 🔍 Explore Schemas Interactively
+```
+"What tables exist in this database?"
+"Describe the structure of the orders table"
+"Show me the relationships between users and orders"
+```
+Automatically discovers schemas, indexes, foreign keys, and constraints.
+
+### 🛡️ Query Safely with Built-in Security
+- **Read-only mode** for production databases
+- **Query validation** blocks dangerous operations
+- **Timeout protection** prevents runaway queries
+- **Row limits** prevent memory exhaustion
+- **SQL injection prevention** with parameterized queries
+
+### 📊 Visualize Results
+Results displayed as formatted ASCII tables and charts directly in your AI chat interface.
+
+### 💾 Persistent Connections
+Connections automatically saved and restored between sessions. No need to re-enter credentials every time.
+
+---
+
+## Why sql-mcp?
+
+| Feature | sql-mcp | Direct SQL | Database GUI | AI with Memory |
+|---------|---------|------------|--------------|----------------|
+| **Natural Language** | ✅ Built-in | ❌ No | ❌ No | ⚠️ Limited |
+| **Multi-Database** | ✅ 6+ types | ⚠️ One at a time | ⚠️ One at a time | ❌ No |
+| **AI Integration** | ✅ Native MCP | ❌ No | ❌ No | ⚠️ Copy-paste |
+| **Safety Features** | ✅ Comprehensive | ❌ No | ⚠️ Basic | ❌ No |
+| **Schema Context** | ✅ Automatic | ❌ Manual | ✅ Yes | ⚠️ Limited |
+| **Version Control** | ✅ Config files | ✅ .sql files | ❌ No | ❌ No |
+| **Learning Curve** | ⭐ Easy | ⭐⭐⭐ SQL expertise | ⭐⭐ Medium | ⭐⭐ Varies |
+
+---
+
+## Examples
+
+### Example 1: Analyze User Activity
+
+```
+You: "Connect to my production PostgreSQL database"
+AI: ✅ Connected
+
+You: "Show me users who signed up last month but haven't logged in yet"
+AI: SELECT u.id, u.email, u.created_at
+    FROM users u
+    WHERE u.created_at >= '2026-02-01'
+      AND u.created_at < '2026-03-01'
+      AND u.last_login_at IS NULL;
+
+    Found 23 users:
+    [formatted table]
+
+You: "Export their emails to prepare an engagement campaign"
+AI: [provides formatted email list]
+```
+
+### Example 2: Schema Exploration
+
+```
+You: "What's in my database?"
+AI: Your database has 12 tables:
+    - users (authentication and profiles)
+    - orders (purchase history)
+    - products (catalog)
+    ...
+
+You: "Show me how users connect to orders"
+AI: Relationship: users.id → orders.user_id (one-to-many)
+    Foreign key constraint ensures referential integrity
+
+You: "Describe the orders table structure"
+AI: Table: orders
+    Columns:
+    - id (integer, primary key)
+    - user_id (integer, foreign key → users.id)
+    - total (decimal)
+    - status (varchar)
+    - created_at (timestamp)
+    ...
+```
+
+### Example 3: Data Validation
+
+```
+You: "Find records with invalid email formats"
+AI: SELECT id, email FROM users
+    WHERE email NOT LIKE '%_@__%.__%';
+
+    Found 12 invalid emails:
+    [shows results]
+
+You: "How many orders have a negative total?"
+AI: SELECT COUNT(*) FROM orders WHERE total < 0;
+
+    Result: 0 (data integrity looks good!)
+```
+
+### Example 4: Cross-Database Queries
+
+```
+You: "Connect to both my staging and production databases"
+AI: ✅ Connected to staging (PostgreSQL)
+    ✅ Connected to production (PostgreSQL)
+
+You: "Compare user counts between environments"
+AI: Staging: 1,234 users
+    Production: 45,678 users
+    Difference: 44,444 users
+
+You: "Show me tables that exist in production but not in staging"
+AI: Missing tables in staging:
+    - audit_logs
+    - feature_flags
+    - payment_methods
+```
+
+---
+
+## Installation
+
+### For End Users (Recommended)
+
+**Method 1: NPX** (zero installation, auto-updates):
+```bash
+# Use directly without installing
+npx -y sql-mcp --stdio
+```
+
+**Method 2: Global Installation**:
+```bash
+npm install -g sql-mcp
+
+# Verify installation
+sql-mcp --version
+```
+
+### For Developers
+
+**Local Development**:
+```bash
+git clone https://github.com/varkart/sql-mcp.git
+cd sql-mcp
+npm install
+npm run build
+
+# Test the server
+npm test
+```
+
+Then configure your MCP client with the absolute path to `dist/index.js`.
+
+**From Source**:
+```bash
+npm pack
+npm install -g ./sql-mcp-1.0.0.tgz
+```
+
+---
+
+## Supported Clients
+
+sql-mcp works with any MCP-compatible client. We provide detailed setup guides:
 
 | Client | Platform | Best For | Setup Difficulty |
 |--------|----------|----------|------------------|
@@ -40,121 +308,7 @@ sql-mcp works with any MCP-compatible client. We provide detailed setup guides f
 
 **[See all client setup guides →](docs/clients/)**
 
-### Installation Methods
-
-#### Method 1: NPX (Recommended)
-Auto-updates to latest version. Works with all clients:
-```json
-{
-  "mcpServers": {
-    "sql-mcp": {
-      "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
-    }
-  }
-}
-```
-
-#### Method 2: Local Development
-For contributors or custom modifications:
-```bash
-git clone https://github.com/varkart/sql-mcp.git
-cd sql-mcp
-npm install
-npm run build
-```
-
-Then configure your client with the absolute path to `dist/index.js`.
-
-**Note**: Package name varies by client (`mcpServers`, `context_servers`, etc.). See [client-specific guides](docs/clients/) for exact configuration.
-
-## Installation
-
-```bash
-npm install
-npm run build
-```
-
-## Quick Start
-
-### 1. Build the Project
-
-```bash
-npm install
-npm run build
-```
-
-### 2. Test the Server
-
-```bash
-node debug-server.js
-```
-
-Expected output:
-```
-✅ Server initialized successfully!
-✅ Tools retrieved successfully!
-✅ All tests passed!
-```
-
-### 3. Configure Your MCP Client
-
-sql-mcp works with any MCP-compatible client. Choose your client below for detailed setup instructions:
-
-#### Supported Clients
-
-| Client | Platform | Setup Guide |
-|--------|----------|-------------|
-| **Claude Desktop** | macOS, Windows, Linux | [Setup Guide →](docs/clients/claude-desktop.md) |
-| **Claude Code** | VS Code Extension | [Setup Guide →](docs/clients/claude-code.md) |
-| **Cline** (VS Code) | VS Code Extension | [Setup Guide →](docs/clients/cline.md) |
-| **Cursor** | macOS, Windows, Linux | [Setup Guide →](docs/clients/cursor.md) |
-| **Windsurf** | macOS, Windows, Linux | [Setup Guide →](docs/clients/windsurf.md) |
-| **Continue** | VS Code, JetBrains | [Setup Guide →](docs/clients/continue.md) |
-| **Zed** | macOS, Linux | [Setup Guide →](docs/clients/zed.md) |
-| **JetBrains IDEs** | All platforms | [Setup Guide →](docs/clients/jetbrains.md) |
-| **ChatGPT Desktop** | macOS, Windows, Linux | [Setup Guide →](docs/clients/chatgpt.md) |
-
-**See all clients**: [docs/clients/](docs/clients/) for complete setup guides and configuration examples.
-
-#### Quick Setup Example (Claude Desktop)
-
-For Claude Desktop users, here's a quick example:
-
-- **Config file location**:
-  - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-  - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-  - Linux: `~/.config/Claude/claude_desktop_config.json`
-
-- **Configuration** (replace with your actual path):
-  ```json
-  {
-    "mcpServers": {
-      "sql-mcp": {
-        "command": "node",
-        "args": [
-          "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js",
-          "--stdio"
-        ],
-        "env": {}
-      }
-    }
-  }
-  ```
-
-**Important**: Use the **absolute path** to your project directory!
-
-For detailed instructions and NPX setup, see the [Claude Desktop Setup Guide](docs/clients/claude-desktop.md).
-
-### 4. Restart Your MCP Client
-
-Quit and restart Claude Desktop/Code for the changes to take effect.
-
-### 5. Verify Connection
-
-In your MCP client, try using the `list_connections` tool. You should see an empty list.
-
-**Having connection issues?** See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed debugging steps.
+---
 
 ## Configuration
 
