@@ -267,7 +267,7 @@ Description:
 Production-grade MCP server for multi-database SQL management with natural language querying
 
 Website:
-https://www.npmjs.com/package/sql-mcp
+https://www.npmjs.com/package/mcp-sql-explorer
 
 ✅ Include this repository in the GitHub Stars program
 ```

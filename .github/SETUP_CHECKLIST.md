@@ -53,7 +53,7 @@ Quick checklist for configuring repository settings. See [REPOSITORY_SETUP.md](R
 
 **Main page → About ⚙️**
 - [ ] Add description: "Production-grade MCP server for multi-database SQL management with natural language querying"
-- [ ] Add website: https://www.npmjs.com/package/sql-mcp
+- [ ] Add website: https://www.npmjs.com/package/mcp-sql-explorer
 - [ ] Add topics: mcp, sql, database, postgresql, mysql, sqlite, typescript, nodejs, ai, llm
 
 ## 💬 Community (Recommended)

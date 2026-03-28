@@ -99,13 +99,13 @@ gh release create v1.0.0 \
 # Wait ~5 minutes for npm to propagate
 
 # Install from npm
-npm install -g sql-mcp
+npm install -g mcp-sql-explorer
 
 # Verify it works
-sql-mcp --version
+mcp-sql-explorer --version
 
 # Test basic functionality
-npx sql-mcp --help
+npx mcp-sql-explorer --help
 ```
 
 ## 📢 Marketing & Community (Week 1)
@@ -118,7 +118,7 @@ npx sql-mcp --help
 - [ ] Share on your GitHub profile
 
 **Social Media:**
-- [ ] Twitter/X: "Just launched sql-mcp 🚀..."
+- [ ] Twitter/X: "Just launched mcp-sql-explorer 🚀..."
 - [ ] Reddit: r/programming, r/javascript, r/node
 - [ ] Hacker News: Show HN
 - [ ] Dev.to: Write launch article
@@ -130,13 +130,13 @@ npx sql-mcp --help
 
 **Template Announcement:**
 ```markdown
-🚀 Launched sql-mcp v1.0.0
+🚀 Launched mcp-sql-explorer v1.0.0
 
 Talk to your databases in plain English. Connect Claude, ChatGPT, or any
 AI assistant to PostgreSQL, MySQL, SQLite, and more.
 
 🔗 https://github.com/varkart/sql-mcp
-📦 npm install -g sql-mcp
+📦 npm install -g mcp-sql-explorer
 
 Features:
 ✅ 6 database types supported
