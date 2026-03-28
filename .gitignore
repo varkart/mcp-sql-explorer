@@ -5,6 +5,23 @@ node_modules/
 # Build outputs
 dist/
 *.tsbuildinfo
+test/**/*.js
+test/**/*.d.ts
+!test/setup.js
+!test/helpers/*.js
+
+# Compiled JS files in root (keep only TypeScript sources)
+/*.js
+!*.config.js
+
+# Cleanup directory (safe to delete after review)
+trash/
+
+# Docker volumes (managed by Docker Compose)
+postgres_data/
+mysql_data/
+mariadb_data/
+mssql_data/
 
 # Environment and config
 .env

@@ -1,11 +1,11 @@
 {
-  "name": "sql-mcp",
+  "name": "mcp-sql-explorer",
   "version": "1.0.0",
   "description": "Production-grade MCP server for multi-database SQL management with natural language querying",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "sql-mcp": "dist/index.js"
+    "mcp-sql-explorer": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -13,7 +13,9 @@
     "build:all": "npm run build && npm run build:ui",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "test": "NODE_OPTIONS='--loader ts-node/esm --experimental-specifier-resolution=node' mocha 'test/**/*.test.ts'",
+    "test": "npm run build && tsc -p tsconfig.test.json && mocha --require test/setup.js 'test-dist/**/*.test.js'",
+    "test:integration": "npm run build && tsc -p tsconfig.test.json && mocha --require test/setup.js 'test-dist/integration/**/*.test.js' --timeout 60000",
+    "test:unit": "npm run build && tsc -p tsconfig.test.json && mocha --require test/setup.js 'test-dist/unit/**/*.test.js'",
     "test:watch": "npm test -- --watch",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write 'src/**/*.ts'",
@@ -21,6 +23,7 @@
   },
   "keywords": [
     "mcp",
+    "model-context-protocol",
     "sql",
     "database",
     "postgresql",
@@ -31,39 +34,61 @@
     "mariadb",
     "natural-language",
     "ai",
-    "llm"
+    "llm",
+    "claude",
+    "chatgpt",
+    "database-management",
+    "query-builder",
+    "schema-introspection"
   ],
-  "author": "vk",
+  "author": {
+    "name": "vk",
+    "url": "https://github.com/varkart"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varkart/sql-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/varkart/sql-mcp/issues"
+  },
+  "homepage": "https://github.com/varkart/sql-mcp#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/varkart"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
     "@modelcontextprotocol/ext-apps": "^1.3.1",
-    "zod": "^3.24.0",
-    "pg": "^8.13.0",
-    "mysql2": "^3.12.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
     "better-sqlite3": "^11.7.0",
+    "mariadb": "^3.4.0",
     "mssql": "^11.0.0",
-    "mariadb": "^3.4.0"
+    "mysql2": "^3.12.0",
+    "pg": "^8.13.0",
+    "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/chai": "^5.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/mssql": "^9.1.0",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.0",
-    "@types/better-sqlite3": "^7.6.0",
-    "@types/mssql": "^9.1.0",
-    "typescript": "^5.7.0",
-    "esbuild": "^0.24.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
-    "prettier": "^3.3.0",
-    "mocha": "^11.0.0",
     "chai": "^5.1.0",
-    "@types/mocha": "^10.0.0",
-    "@types/chai": "^5.0.0",
-    "ts-node": "^10.9.0"
+    "esbuild": "^0.24.0",
+    "eslint": "^9.0.0",
+    "mocha": "^11.0.0",
+    "prettier": "^3.3.0",
+    "testcontainers": "^10.16.0",
+    "ts-node": "^10.9.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
   },
   "optionalDependencies": {
     "oracledb": "^6.7.0"
