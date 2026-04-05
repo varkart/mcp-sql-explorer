@@ -10,6 +10,9 @@ test/**/*.d.ts
 !test/setup.js
 !test/helpers/*.js
 
+# UI build outputs (source in ui/ is tracked)
+dist/ui/
+
 # Compiled JS files in root (keep only TypeScript sources)
 /*.js
 !*.config.js

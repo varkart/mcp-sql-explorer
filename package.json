@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:ui": "node esbuild.config.js",
+    "build:ui": "node build-ui.js",
     "build:all": "npm run build && npm run build:ui",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
@@ -78,14 +78,18 @@
     "@types/mssql": "^9.1.0",
     "@types/node": "^22.0.0",
     "@types/pg": "^8.11.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "chai": "^5.1.0",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.28.0",
     "eslint": "^9.0.0",
-    "mocha": "^11.0.0",
+    "mocha": "^11.3.0",
     "prettier": "^3.3.0",
-    "testcontainers": "^10.16.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "testcontainers": "^10.28.0",
     "ts-node": "^10.9.0",
     "tsx": "^4.21.0",
     "typescript": "^5.7.0",
@@ -93,5 +97,8 @@
   },
   "optionalDependencies": {
     "oracledb": "^6.7.0"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.5"
   }
 }

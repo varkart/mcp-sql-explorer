@@ -51,9 +51,24 @@ function processConfig(config: any): ServerConfig {
     }
   }
 
+  // MCP Apps configuration with environment variable support
+  const appsEnabled = process.env.SQL_MCP_APPS_ENABLED
+    ? process.env.SQL_MCP_APPS_ENABLED !== 'false'
+    : config.apps?.enabled !== false; // Default: true
+
+  const connectionManagerEnabled = process.env.SQL_MCP_APP_CONNECTION_MANAGER_ENABLED
+    ? process.env.SQL_MCP_APP_CONNECTION_MANAGER_ENABLED !== 'false'
+    : config.apps?.connectionManager?.enabled !== false; // Default: true
+
   return {
     connections,
     defaults,
+    apps: {
+      enabled: appsEnabled,
+      connectionManager: {
+        enabled: connectionManagerEnabled,
+      },
+    },
   };
 }
 

@@ -14,7 +14,6 @@ export const registerExecuteQueryTool: ToolRegistration = (server, { manager, qu
       inputSchema: z.object({
         connectionId: z.string().describe('Connection ID'),
         sql: z.string().describe('SQL query'),
-        params: z.array(z.any()).optional().describe('Query parameters'),
         maxRows: z.number().optional().describe('Max rows to return'),
         timeout: z.number().optional().describe('Query timeout in ms'),
         format: z.enum(['table', 'json', 'raw']).optional().describe('Output format'),
@@ -37,7 +36,7 @@ export const registerExecuteQueryTool: ToolRegistration = (server, { manager, qu
           { timeout: args.timeout, maxRows: args.maxRows }
         );
 
-        const result = await adapter.execute(args.sql, args.params, options);
+        const result = await adapter.execute(args.sql, [], options);
 
         const statementType = classifyStatement(args.sql);
         queryHistory.unshift({

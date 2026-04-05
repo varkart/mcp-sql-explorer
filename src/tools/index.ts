@@ -22,6 +22,11 @@ import {
   registerExploreDatabasePrompt,
 } from './prompts/index.js';
 
+// Apps
+import {
+  registerConnectionManagerApp,
+} from './apps/index.js';
+
 /**
  * Register all tools, resources, and prompts with the MCP server
  */
@@ -40,6 +45,9 @@ export function registerAllTools(server: McpServer, context: ToolContext): void 
 
   // Register prompts
   registerExploreDatabasePrompt(server, context);
+
+  // Register apps (conditionally based on config)
+  registerConnectionManagerApp(server, context);
 }
 
 // Re-export types

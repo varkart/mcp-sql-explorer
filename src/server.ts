@@ -7,7 +7,7 @@ import { registerAllTools } from './tools/index.js';
 
 const queryHistory: QueryHistoryEntry[] = [];
 
-export async function createServer() {
+export async function createServer(config?: ServerConfig) {
   const manager = new ConnectionManager();
   const server = new McpServer({
     name: 'sql-mcp',
@@ -21,7 +21,7 @@ export async function createServer() {
   });
 
   // Register all tools, resources, and prompts
-  registerAllTools(server, { manager, queryHistory });
+  registerAllTools(server, { manager, queryHistory, config });
 
   return { server, manager };
 }

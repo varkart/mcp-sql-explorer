@@ -40,6 +40,12 @@ export interface ServerConfig {
     queryTimeout: number;
     maxRows: number;
   };
+  apps?: {
+    enabled?: boolean;
+    connectionManager?: {
+      enabled?: boolean;
+    };
+  };
 }
 
 export interface QueryResult {

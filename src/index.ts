@@ -46,7 +46,7 @@ async function main() {
   try {
     const config = await loadConfig(args.config);
 
-    const { server, manager } = await createServer();
+    const { server, manager } = await createServer(config || undefined);
 
     const ready = autoConnect(manager, config);
 

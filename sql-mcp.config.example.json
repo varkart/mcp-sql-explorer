@@ -1,0 +1,35 @@
+{
+  "connections": {
+    "local-postgres": {
+      "name": "Local PostgreSQL",
+      "env": "development",
+      "type": "postgresql",
+      "host": "localhost",
+      "port": 5432,
+      "database": "mydb",
+      "user": "${POSTGRES_USER}",
+      "password": "${POSTGRES_PASSWORD}"
+    },
+    "prod-mysql": {
+      "name": "Production MySQL",
+      "env": "production",
+      "type": "mysql",
+      "host": "${MYSQL_HOST}",
+      "port": 3306,
+      "database": "app_db",
+      "user": "${MYSQL_USER}",
+      "password": "${MYSQL_PASSWORD}"
+    }
+  },
+  "defaults": {
+    "readOnly": true,
+    "queryTimeout": 30000,
+    "maxRows": 1000
+  },
+  "apps": {
+    "enabled": true,
+    "connectionManager": {
+      "enabled": true
+    }
+  }
+}
