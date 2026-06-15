@@ -65,7 +65,7 @@
     "@modelcontextprotocol/ext-apps": "^1.7.4",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "better-sqlite3": "^11.7.0",
-    "mariadb": "^3.4.0",
+    "mariadb": "3.5.2",
     "mssql": "^11.0.0",
     "mysql2": "^3.12.0",
     "pg": "^8.13.0",
