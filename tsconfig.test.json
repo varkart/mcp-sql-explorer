@@ -5,7 +5,6 @@
     "rootDir": "./test",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./dist/*"]
     }
