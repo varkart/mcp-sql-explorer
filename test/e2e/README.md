@@ -1,6 +1,6 @@
 # End-to-End Tests
 
-This directory contains end-to-end tests for sql-mcp using real database engines via Docker.
+This directory contains end-to-end tests for sql-lens-mcp using real database engines via Docker.
 
 ## Structure
 

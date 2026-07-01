@@ -22,7 +22,7 @@ Simply ask Claude Code to "view my database connections" and the interactive das
 
 ## Configuration
 
-MCP Apps are enabled by default with zero configuration required. You can control them through your `sql-mcp.config.json` file or environment variables.
+MCP Apps are enabled by default with zero configuration required. You can control them through your `sql-lens-mcp.config.json` file or environment variables.
 
 ### Configuration File
 
@@ -39,17 +39,17 @@ MCP Apps are enabled by default with zero configuration required. You can contro
 
 ### Environment Variables
 
-- `SQL_MCP_APPS_ENABLED`: Enable/disable all MCP Apps (default: `true`)
-- `SQL_MCP_APP_CONNECTION_MANAGER_ENABLED`: Enable/disable Connection Manager app (default: `true`)
+- `SQL_LENS_MCP_APPS_ENABLED`: Enable/disable all MCP Apps (default: `true`)
+- `SQL_LENS_MCP_APP_CONNECTION_MANAGER_ENABLED`: Enable/disable Connection Manager app (default: `true`)
 
 To disable all apps:
 ```bash
-export SQL_MCP_APPS_ENABLED=false
+export SQL_LENS_MCP_APPS_ENABLED=false
 ```
 
 To disable only the Connection Manager:
 ```bash
-export SQL_MCP_APP_CONNECTION_MANAGER_ENABLED=false
+export SQL_LENS_MCP_APP_CONNECTION_MANAGER_ENABLED=false
 ```
 
 ## Development

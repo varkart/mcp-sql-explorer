@@ -1,6 +1,6 @@
 # JetBrains IDEs Setup Guide
 
-Complete setup instructions for using sql-mcp with JetBrains IDEs (IntelliJ IDEA, PyCharm, WebStorm, GoLand, PhpStorm, Android Studio, etc.).
+Complete setup instructions for using sql-lens-mcp with JetBrains IDEs (IntelliJ IDEA, PyCharm, WebStorm, GoLand, PhpStorm, Android Studio, etc.).
 
 ## Prerequisites
 
@@ -27,10 +27,10 @@ All IntelliJ Platform-based IDEs support MCP as of version 2025.1:
 
 JetBrains IDEs support MCP in two modes:
 
-1. **MCP Client** (this guide): Connect to external MCP servers like sql-mcp
+1. **MCP Client** (this guide): Connect to external MCP servers like sql-lens-mcp
 2. **MCP Server**: Expose IDE features to external clients like Claude Desktop
 
-We'll focus on using JetBrains as an **MCP Client** to connect to sql-mcp.
+We'll focus on using JetBrains as an **MCP Client** to connect to sql-lens-mcp.
 
 ## Quick Start
 
@@ -44,10 +44,10 @@ We'll focus on using JetBrains as an **MCP Client** to connect to sql-mcp.
 
 3. **Add MCP Server**:
    - Click "+ Add Server"
-   - Name: `sql-mcp`
+   - Name: `sql-lens-mcp`
    - Transport: `STDIO`
    - Command: `npx`
-   - Arguments: `-y sql-mcp --stdio`
+   - Arguments: `-y sql-lens-mcp --stdio`
 
 4. **Save and Apply**
 
@@ -59,7 +59,7 @@ We'll focus on using JetBrains as an **MCP Client** to connect to sql-mcp.
 7. **Verify Connection**:
    - Open AI Assistant panel (View → Tool Windows → AI Assistant)
    - Type: "List available database tools"
-   - AI Assistant should use sql-mcp tools
+   - AI Assistant should use sql-lens-mcp tools
 
 ### Method 2: Auto-Configuration (2025.2+)
 
@@ -72,38 +72,38 @@ Starting with version 2025.2, JetBrains IDEs support auto-configuration:
 3. **Click "Auto-Configure"**
 
 4. **Select MCP servers from list**:
-   - If sql-mcp is installed via npx, it may appear automatically
+   - If sql-lens-mcp is installed via npx, it may appear automatically
    - Otherwise, use Manual Configuration (Method 1)
 
 ### Method 3: Local Development
 
-For testing local sql-mcp builds:
+For testing local sql-lens-mcp builds:
 
-1. **Build sql-mcp**:
+1. **Build sql-lens-mcp**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
 
 2. **Add to JetBrains**:
    - Settings → Tools → MCP Client → Add Server
-   - Name: `sql-mcp-local`
+   - Name: `sql-lens-mcp-local`
    - Transport: `STDIO`
    - Command: `node`
-   - Arguments: `/absolute/path/to/sql-mcp/dist/index.js --stdio`
+   - Arguments: `/absolute/path/to/sql-lens-mcp/dist/index.js --stdio`
 
 3. **Apply and Restart**
 
 ### Method 4: HTTP Transport (Remote)
 
-For remote sql-mcp servers:
+For remote sql-lens-mcp servers:
 
 1. **Set up HTTP MCP server** (see [ChatGPT guide](chatgpt.md) for HTTP bridge setup)
 
 2. **Add to JetBrains**:
    - Settings → Tools → MCP Client → Add Server
-   - Name: `sql-mcp-remote`
+   - Name: `sql-lens-mcp-remote`
    - Transport: `HTTP (Streamable)`
    - URL: `https://your-server.com/mcp`
 
@@ -142,10 +142,10 @@ The settings UI generates XML configuration:
   <component name="MCPClientSettings">
     <mcpServers>
       <server>
-        <name>sql-mcp</name>
+        <name>sql-lens-mcp</name>
         <transport>STDIO</transport>
         <command>npx</command>
-        <args>-y sql-mcp --stdio</args>
+        <args>-y sql-lens-mcp --stdio</args>
         <enabled>true</enabled>
       </server>
     </mcpServers>
@@ -162,7 +162,7 @@ You can configure multiple servers simultaneously:
 3. **AI Assistant** will have access to all enabled servers
 
 Example configuration:
-- sql-mcp (database access)
+- sql-lens-mcp (database access)
 - filesystem (file operations)
 - github (repository access)
 
@@ -214,7 +214,7 @@ AI Assistant should:
 
 ## AI Assistant Integration
 
-### Using sql-mcp with AI Assistant
+### Using sql-lens-mcp with AI Assistant
 
 Once configured, AI Assistant can:
 
@@ -249,7 +249,7 @@ Compare the schema of my development and production databases
 
 ## Common Issues
 
-### Issue: AI Assistant not using sql-mcp
+### Issue: AI Assistant not using sql-lens-mcp
 
 **Solution**:
 1. **Verify MCP Client is enabled**:
@@ -260,7 +260,7 @@ Compare the schema of my development and production databases
    - Settings → Tools → AI Assistant
 4. **Try explicit prompt**:
    ```
-   Use the sql-mcp tool to connect to a SQLite database
+   Use the sql-lens-mcp tool to connect to a SQLite database
    ```
 
 ### Issue: "MCP Client settings not found"
@@ -294,14 +294,14 @@ where npm  # Windows
 
 Use full path in command:
 - Command: `/usr/local/bin/npx`
-- Arguments: `-y sql-mcp --stdio`
+- Arguments: `-y sql-lens-mcp --stdio`
 
 ### Issue: Connection timeout
 
 **Solution**:
-1. **Test sql-mcp standalone**:
+1. **Test sql-lens-mcp standalone**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    node debug-server.js
    ```
 2. **Check IDE logs**:
@@ -314,7 +314,7 @@ Use full path in command:
 **Solution**:
 ```bash
 # macOS/Linux - fix script permissions
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 
 # Verify Node.js is executable
 ls -la $(which node)
@@ -341,9 +341,9 @@ Add environment variables to MCP server:
 Settings → Tools → MCP Client → [Your Server] → Environment Variables
 
 ```
-SQL_MCP_LOG_LEVEL=debug
-SQL_MCP_MAX_ROWS=1000
-SQL_MCP_QUERY_TIMEOUT=30000
+SQL_LENS_MCP_LOG_LEVEL=debug
+SQL_LENS_MCP_MAX_ROWS=1000
+SQL_LENS_MCP_QUERY_TIMEOUT=30000
 ```
 
 ### Project-Specific Configuration
@@ -361,7 +361,7 @@ Note: Project-level MCP settings may be added in future versions.
 Use specific Node.js version:
 
 - Command: `/Users/yourname/.nvm/versions/node/v18.20.0/bin/node`
-- Arguments: `/path/to/sql-mcp/dist/index.js --stdio`
+- Arguments: `/path/to/sql-lens-mcp/dist/index.js --stdio`
 
 Find Node.js path:
 ```bash
@@ -427,7 +427,7 @@ Generate a SQL migration script to add a "published" boolean column to the posts
 - **Settings**: `Ctrl + Alt + S` (Windows/Linux), `Cmd + ,` (macOS)
 - **Find Action**: `Ctrl + Shift + A` → "MCP Client"
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method (Automatic)
 NPX automatically uses the latest version. To force update:
@@ -438,7 +438,7 @@ npx clear-npx-cache
 
 ### Local Development Method
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -448,7 +448,7 @@ npm run build
 ## Uninstalling
 
 1. **Open Settings → Tools → MCP Client**
-2. **Select sql-mcp server**
+2. **Select sql-lens-mcp server**
 3. **Click "Remove" (- button)**
 4. **Apply changes**
 5. **Restart IDE**
@@ -470,7 +470,7 @@ npx clear-npx-cache
 
 ### DataGrip
 - Already has powerful database tools built-in
-- sql-mcp adds AI-powered query generation
+- sql-lens-mcp adds AI-powered query generation
 
 ### WebStorm
 - Great for Node.js + database projects
@@ -491,7 +491,7 @@ npx clear-npx-cache
 
 - **JetBrains MCP Documentation**: [jetbrains.com/help/ai-assistant/mcp.html](https://www.jetbrains.com/help/ai-assistant/mcp.html)
 - **IntelliJ MCP Blog**: [IntelliJ IDEA 2025.1 ❤️ MCP](https://blog.jetbrains.com/idea/2025/05/intellij-idea-2025-1-model-context-protocol/)
-- **sql-mcp Issues**: [GitHub Issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **sql-lens-mcp Issues**: [GitHub Issues](https://github.com/varkart/sql-lens-mcp/issues)
 - **JetBrains Support**: [jetbrains.com/support](https://www.jetbrains.com/support/)
 
 ## Resources

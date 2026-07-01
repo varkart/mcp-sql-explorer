@@ -1,6 +1,6 @@
 # Security Configuration Guide
 
-This document outlines the security configurations for the mcp-sql-explorer repository.
+This document outlines the security configurations for the sql-lens-mcp repository.
 
 ## Automated Security Configurations
 
@@ -126,7 +126,7 @@ The repository uses the following secrets:
 - `NPM_TOKEN`: npm authentication token (used in publish workflow)
   - Stored in: Repository secrets
   - Used by: `npm-production` environment
-  - Scope: Publish access to mcp-sql-explorer package
+  - Scope: Publish access to sql-lens-mcp package
 
 **Best Practices**:
 - Secrets are never logged or exposed in workflow outputs

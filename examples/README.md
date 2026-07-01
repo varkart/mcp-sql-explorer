@@ -1,10 +1,10 @@
 # Configuration Examples
 
-This directory contains example configurations for setting up sql-mcp with various MCP clients.
+This directory contains example configurations for setting up sql-lens-mcp with various MCP clients.
 
 ## Available Examples
 
-### configs/sql-mcp.config.example.json
+### configs/sql-lens-mcp.config.example.json
 
 Example server configuration file showing:
 - Multiple database connections
@@ -49,9 +49,9 @@ Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -64,9 +64,9 @@ Open VS Code settings.json:
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -89,9 +89,9 @@ When testing locally, use absolute paths:
 ```json
 {
   "mcpServers": {
-    "sql-mcp-dev": {
+    "sql-lens-mcp-dev": {
       "command": "node",
-      "args": ["/absolute/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/absolute/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -100,7 +100,7 @@ When testing locally, use absolute paths:
 Get your absolute path:
 
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 pwd
 ```
 
@@ -252,4 +252,4 @@ For testing, use the examples in `../test/e2e/fixtures/`:
 - Check the documentation: `../README.md`
 - Review client guides: `../docs/clients/`
 - See troubleshooting: `../TROUBLESHOOTING.md`
-- Open an issue: https://github.com/varkart/mcp-sql-explorer/issues
+- Open an issue: https://github.com/varkart/sql-lens-mcp/issues

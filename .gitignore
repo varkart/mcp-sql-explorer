@@ -30,8 +30,8 @@ mssql_data/
 .env
 .env.*
 !.env.example
-sql-mcp.config.json
-!sql-mcp.config.example.json
+sql-lens-mcp.config.json
+!sql-lens-mcp.config.example.json
 
 # SQLite databases (test/dev only)
 *.db

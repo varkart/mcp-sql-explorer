@@ -1,17 +1,17 @@
-# mcp-sql-explorer
+# sql-lens-mcp
 
-[![npm version](https://img.shields.io/npm/v/mcp-sql-explorer.svg)](https://www.npmjs.com/package/mcp-sql-explorer)
-[![npm downloads](https://img.shields.io/npm/dm/mcp-sql-explorer.svg)](https://www.npmjs.com/package/mcp-sql-explorer)
-[![GitHub stars](https://img.shields.io/github/stars/varkart/mcp-sql-explorer?style=social)](https://github.com/varkart/mcp-sql-explorer)
+[![npm version](https://img.shields.io/npm/v/sql-lens-mcp.svg)](https://www.npmjs.com/package/sql-lens-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/sql-lens-mcp.svg)](https://www.npmjs.com/package/sql-lens-mcp)
+[![GitHub stars](https://img.shields.io/github/stars/varkart/sql-lens-mcp?style=social)](https://github.com/varkart/sql-lens-mcp)
 [![Status](https://img.shields.io/badge/status-production--ready-brightgreen)]()
-[![CI](https://github.com/varkart/mcp-sql-explorer/workflows/CI/badge.svg)](https://github.com/varkart/mcp-sql-explorer/actions)
+[![CI](https://github.com/varkart/sql-lens-mcp/workflows/CI/badge.svg)](https://github.com/varkart/sql-lens-mcp/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/MCP-2024--11--05-blue)](https://modelcontextprotocol.io)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org)
 
 **The AI-native database client. Query any database in plain English using Model Context Protocol.**
 
-Built on [Model Context Protocol (MCP)](https://modelcontextprotocol.io), mcp-sql-explorer brings natural language database interactions to AI assistants. No SQL knowledge needed—just ask questions naturally and get instant answers. Works with PostgreSQL, MySQL, SQLite, and more.
+Built on [Model Context Protocol (MCP)](https://modelcontextprotocol.io), sql-lens-mcp brings natural language database interactions to AI assistants. No SQL knowledge needed—just ask questions naturally and get instant answers. Works with PostgreSQL, MySQL, SQLite, and more.
 
 ```
 You: "Show me users who signed up this week"
@@ -34,7 +34,7 @@ AI: ✅ Connected to PostgreSQL (read-only mode enabled)
 - [Quick Start](#quick-start)
 - [Examples](#examples)
 - [Installation](#installation)
-- [Why mcp-sql-explorer?](#why-mcp-sql-explorer)
+- [Why sql-lens-mcp?](#why-sql-lens-mcp)
 - [💼 Real-World Use Cases](#-real-world-use-cases)
 - [Supported Clients](#supported-clients)
 - [Configuration](#configuration)
@@ -65,7 +65,7 @@ AI: ✅ Connected to PostgreSQL (read-only mode enabled)
 "Which products are running low on inventory?"
 "Find all orders placed in the last 7 days"
 ```
-No SQL required—just ask naturally and mcp-sql-explorer handles the rest.
+No SQL required—just ask naturally and sql-lens-mcp handles the rest.
 
 ### 🔌 Connect to Any Database
 - **PostgreSQL** - Production-grade with full feature support
@@ -108,12 +108,12 @@ Get up and running in under 2 minutes.
 **Using NPX** (recommended - auto-updates):
 ```bash
 # No installation needed! Use directly:
-npx -y mcp-sql-explorer --stdio
+npx -y sql-lens-mcp --stdio
 ```
 
 **Or install globally:**
 ```bash
-npm install -g mcp-sql-explorer
+npm install -g sql-lens-mcp
 ```
 
 ### Step 2: Configure Your AI Client
@@ -123,9 +123,9 @@ Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_deskt
 ```json
 {
   "mcpServers": {
-    "mcp-sql-explorer": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "mcp-sql-explorer", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -138,9 +138,9 @@ Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_deskt
 ```json
 {
   "claude.mcpServers": {
-    "mcp-sql-explorer": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "mcp-sql-explorer", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -150,9 +150,9 @@ Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_deskt
 ```json
 {
   "mcpServers": {
-    "mcp-sql-explorer": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "mcp-sql-explorer", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -269,9 +269,9 @@ AI: Missing tables in staging:
 
 ## Installation
 
-## Why mcp-sql-explorer?
+## Why sql-lens-mcp?
 
-| Feature | mcp-sql-explorer | Direct SQL | Database GUI | AI with Memory |
+| Feature | sql-lens-mcp | Direct SQL | Database GUI | AI with Memory |
 |---------|---------|------------|--------------|----------------|
 | **Natural Language** | ✅ Built-in | ❌ No | ❌ No | ⚠️ Limited |
 | **Multi-Database** | ✅ 6+ types | ⚠️ One at a time | ⚠️ One at a time | ❌ No |
@@ -292,7 +292,7 @@ AI: Missing tables in staging:
 **Challenge:** Needs to analyze Q4 sales trends for executive presentation, but doesn't know SQL
 **Traditional Approach:** Submit request to data team → wait 2-3 days → get CSV → realize need different data → repeat
 
-**With mcp-sql-explorer:**
+**With sql-lens-mcp:**
 
 ```
 Sarah: "Connect to the production database in read-only mode"
@@ -333,7 +333,7 @@ AI: [ASCII chart showing 24-hour sales distribution]
 **Challenge:** API endpoint timing out in production, need to find the root cause quickly
 **Traditional Approach:** SSH to production → run raw SQL → risk of typos → manual analysis → coordinate with DBA
 
-**With mcp-sql-explorer:**
+**With sql-lens-mcp:**
 
 ```
 Alex: "Connect to prod-api database"
@@ -392,7 +392,7 @@ AI: 342 unique users in the last hour.
 **Challenge:** Overnight spike in error rates, need to investigate cause during incident call
 **Traditional Approach:** Write SQL from memory under pressure → potential mistakes → coordinate with on-call DBA → manual correlation
 
-**With mcp-sql-explorer:**
+**With sql-lens-mcp:**
 
 ```
 Jordan: "Connect to prod-monitoring database"
@@ -448,7 +448,7 @@ AI: Last 7 days connection usage:
 **Challenge:** Tasked with migrating 15-year-old legacy system, no documentation exists
 **Traditional Approach:** Manual exploration → draw ER diagrams → guess relationships → hope nothing breaks
 
-**With mcp-sql-explorer:**
+**With sql-lens-mcp:**
 
 ```
 Maria: "Connect to legacy-crm database"
@@ -527,7 +527,7 @@ AI: orders.id → line_items.order_ref
 **Challenge:** Learning databases for the first time, SQL syntax intimidating
 **Traditional Approach:** Read textbook → try commands → get cryptic errors → give up
 
-**With mcp-sql-explorer:**
+**With sql-lens-mcp:**
 
 ```
 Jamie: "Connect to my SQLite practice database"
@@ -618,23 +618,23 @@ AI: Great question! Indexes speed up queries.
 **Method 1: NPX** (zero installation, auto-updates):
 ```bash
 # Use directly without installing
-npx -y mcp-sql-explorer --stdio
+npx -y sql-lens-mcp --stdio
 ```
 
 **Method 2: Global Installation**:
 ```bash
-npm install -g mcp-sql-explorer
+npm install -g sql-lens-mcp
 
 # Verify installation
-mcp-sql-explorer --version
+sql-lens-mcp --version
 ```
 
 ### For Developers
 
 **Local Development**:
 ```bash
-git clone https://github.com/varkart/mcp-sql-explorer.git
-cd sql-mcp
+git clone https://github.com/varkart/sql-lens-mcp.git
+cd sql-lens-mcp
 npm install
 npm run build
 
@@ -647,14 +647,14 @@ Then configure your MCP client with the absolute path to `dist/index.js`.
 **From Source**:
 ```bash
 npm pack
-npm install -g ./mcp-sql-explorer-1.0.0.tgz
+npm install -g ./sql-lens-mcp-1.0.0.tgz
 ```
 
 ---
 
 ## Supported Clients
 
-mcp-sql-explorer works with any MCP-compatible client. We provide detailed setup guides:
+sql-lens-mcp works with any MCP-compatible client. We provide detailed setup guides:
 
 | Client | Platform | Best For | Setup Difficulty |
 |--------|----------|----------|------------------|
@@ -678,9 +678,9 @@ mcp-sql-explorer works with any MCP-compatible client. We provide detailed setup
 
 The server looks for configuration in this order:
 1. `--config <path>` CLI argument
-2. `./mcp-sql-explorer.config.json` (current directory)
-3. `~/.mcp-sql-explorer/config.json`
-4. `~/.mcp-sql-explorer.config.json`
+2. `./sql-lens-mcp.config.json` (current directory)
+3. `~/.sql-lens-mcp/config.json`
+4. `~/.sql-lens-mcp.config.json`
 
 **Note**: Database configuration is optional. You can connect to databases dynamically using the `connect_database` tool without a config file.
 
@@ -749,7 +749,7 @@ Options:
 
 ## Connection Persistence
 
-Connections are persisted to `~/.mcp-sql-explorer/connections.json` (mode 0600) for automatic restoration on restart. Passwords are stored in plaintext (similar to `~/.pgpass`).
+Connections are persisted to `~/.sql-lens-mcp/connections.json` (mode 0600) for automatic restoration on restart. Passwords are stored in plaintext (similar to `~/.pgpass`).
 
 ## Security
 
@@ -772,8 +772,8 @@ Connections are persisted to `~/.mcp-sql-explorer/connections.json` (mode 0600) 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/varkart/mcp-sql-explorer.git
-cd sql-mcp
+git clone https://github.com/varkart/sql-lens-mcp.git
+cd sql-lens-mcp
 ```
 
 2. **Install dependencies**
@@ -788,8 +788,8 @@ npm run build
 
 4. **Create a test configuration** (optional)
 ```bash
-cp examples/configs/mcp-sql-explorer.config.example.json mcp-sql-explorer.config.json
-# Edit mcp-sql-explorer.config.json with your database credentials
+cp examples/configs/sql-lens-mcp.config.example.json sql-lens-mcp.config.json
+# Edit sql-lens-mcp.config.json with your database credentials
 ```
 
 ### Development Workflow
@@ -799,7 +799,7 @@ cp examples/configs/mcp-sql-explorer.config.example.json mcp-sql-explorer.config
 npm run dev
 
 # In another terminal, run the server
-npm start -- --config mcp-sql-explorer.config.json --debug
+npm start -- --config sql-lens-mcp.config.json --debug
 
 # Format code
 npm run format
@@ -1083,7 +1083,7 @@ Closes #123
 ### Project Structure
 
 ```
-sql-mcp/
+sql-lens-mcp/
 ├── src/                    # TypeScript source code
 │   ├── connections/        # Database connection management
 │   ├── security/          # Security and validation
@@ -1166,7 +1166,7 @@ node dist/index.js --debug --stdio
 {
   "type": "node",
   "request": "launch",
-  "name": "Debug sql-mcp",
+  "name": "Debug sql-lens-mcp",
   "program": "${workspaceFolder}/dist/index.js",
   "args": ["--stdio", "--debug"],
   "console": "integratedTerminal"
@@ -1226,11 +1226,11 @@ We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING
 For security vulnerabilities, please see our [Security Policy](SECURITY.md).
 
 Quick links:
-- [Report a bug](https://github.com/varkart/mcp-sql-explorer/issues/new?template=bug_report.md)
-- [Request a feature](https://github.com/varkart/mcp-sql-explorer/issues/new?template=feature_request.md)
-- [Ask a question](https://github.com/varkart/mcp-sql-explorer/discussions)
+- [Report a bug](https://github.com/varkart/sql-lens-mcp/issues/new?template=bug_report.md)
+- [Request a feature](https://github.com/varkart/sql-lens-mcp/issues/new?template=feature_request.md)
+- [Ask a question](https://github.com/varkart/sql-lens-mcp/discussions)
 
-Thank you for contributing to mcp-sql-explorer!
+Thank you for contributing to sql-lens-mcp!
 
 ## License
 
@@ -1244,4 +1244,4 @@ Copyright (c) 2024 vk
 
 **Maintained By**: [@varkart](https://github.com/varkart)
 
-**Repository**: https://github.com/varkart/mcp-sql-explorer
+**Repository**: https://github.com/varkart/sql-lens-mcp

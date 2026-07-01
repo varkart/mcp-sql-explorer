@@ -1,6 +1,6 @@
 # Testing Guide
 
-Comprehensive testing guide for sql-mcp server.
+Comprehensive testing guide for sql-lens-mcp server.
 
 ## Table of Contents
 
@@ -48,7 +48,7 @@ Add this configuration (replace `/YOUR/PATH` with output from `pwd`):
 ```json
 {
   "mcpServers": {
-    "sql-mcp-test": {
+    "sql-lens-mcp-test": {
       "command": "node",
       "args": ["/YOUR/PATH/dist/index.js", "--stdio"]
     }
@@ -192,7 +192,7 @@ node demo-test-db.js
 
 ## Manual Testing
 
-Test sql-mcp with MCP clients before releasing.
+Test sql-lens-mcp with MCP clients before releasing.
 
 ### Test with Claude Desktop
 
@@ -207,7 +207,7 @@ Test sql-mcp with MCP clients before releasing.
 ```json
 {
   "mcpServers": {
-    "sql-mcp-test": {
+    "sql-lens-mcp-test": {
       "command": "node",
       "args": ["/absolute/path/to/dist/index.js", "--stdio"]
     }
@@ -285,7 +285,7 @@ Test sql-mcp with MCP clients before releasing.
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp-test": {
+    "sql-lens-mcp-test": {
       "command": "node",
       "args": ["/absolute/path/to/dist/index.js", "--stdio"]
     }
@@ -300,7 +300,7 @@ Test sql-mcp with MCP clients before releasing.
 ```
 /mcp
 ```
-Verify sql-mcp-test appears with checkmark
+Verify sql-lens-mcp-test appears with checkmark
 
 ```
 Connect to in-memory SQLite with ID "dev"
@@ -349,7 +349,7 @@ Test with at least 3 different MCP clients:
 npm pack
 
 # Verify contents
-tar -tzf sql-mcp-1.0.0.tgz | head -30
+tar -tzf sql-lens-mcp-1.0.0.tgz | head -30
 
 # Should include: dist/, package.json, README.md, LICENSE
 # Should NOT include: test/, docs/, .github/, trash/
@@ -363,17 +363,17 @@ tar -tzf sql-mcp-1.0.0.tgz | head -30
 
 ```bash
 # Global install
-npm install -g ./sql-mcp-1.0.0.tgz
+npm install -g ./sql-lens-mcp-1.0.0.tgz
 
 # Verify binary
-which sql-mcp
-sql-mcp --version
+which sql-lens-mcp
+sql-lens-mcp --version
 
 # Test with npx
-npx ./sql-mcp-1.0.0.tgz --stdio
+npx ./sql-lens-mcp-1.0.0.tgz --stdio
 
 # Cleanup
-npm uninstall -g sql-mcp
+npm uninstall -g sql-lens-mcp
 ```
 
 - [ ] Global installation works
@@ -466,9 +466,9 @@ npm publish
 
 ```bash
 # Wait 2-3 minutes, then test
-npm install -g sql-mcp
-sql-mcp --version
-npx -y sql-mcp --version
+npm install -g sql-lens-mcp
+sql-lens-mcp --version
+npx -y sql-lens-mcp --version
 ```
 
 ---
@@ -612,8 +612,8 @@ docker compose down -v
 
 # Package testing
 npm pack
-npm install -g ./sql-mcp-1.0.0.tgz
-npm uninstall -g sql-mcp
+npm install -g ./sql-lens-mcp-1.0.0.tgz
+npm uninstall -g sql-lens-mcp
 
 # Publish
 npm publish --dry-run

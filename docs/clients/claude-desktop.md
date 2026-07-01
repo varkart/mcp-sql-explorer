@@ -1,6 +1,6 @@
 # Claude Desktop Setup Guide
 
-Complete setup instructions for using sql-mcp with Claude Desktop.
+Complete setup instructions for using sql-lens-mcp with Claude Desktop.
 
 ## Prerequisites
 
@@ -22,9 +22,9 @@ This method automatically downloads and runs the latest version:
    ```json
    {
      "mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -36,11 +36,11 @@ This method automatically downloads and runs the latest version:
 
 ### Method 2: Local Development
 
-If you're developing sql-mcp locally:
+If you're developing sql-lens-mcp locally:
 
 1. **Build the project**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -48,7 +48,7 @@ If you're developing sql-mcp locally:
 2. **Get absolute path**:
    ```bash
    pwd
-   # Example output: /Users/yourname/projects/sql-mcp
+   # Example output: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open Claude Desktop config** (see locations above)
@@ -57,10 +57,10 @@ If you're developing sql-mcp locally:
    ```json
    {
      "mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -77,9 +77,9 @@ If you're developing sql-mcp locally:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -89,9 +89,9 @@ If you're developing sql-mcp locally:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -102,9 +102,9 @@ If you're using other MCP servers:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -121,7 +121,7 @@ Once configured and restarted:
 1. **Check connection status**:
    - Look for 🔌 icon in Claude Desktop
    - Click it to see connected servers
-   - "sql-mcp" should appear in the list
+   - "sql-lens-mcp" should appear in the list
 
 2. **Test with a simple query**:
    ```
@@ -164,7 +164,7 @@ Once configured and restarted:
 **Solution**:
 1. Test server works standalone:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    node debug-server.js
    ```
 2. If debug-server.js passes, issue is with config
@@ -192,7 +192,7 @@ npm install -g npm@latest
 chmod 600 ~/Library/Application\ Support/Claude/claude_desktop_config.json
 
 # Make dist files executable
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 ```
 
 ### Issue: Wrong Node.js version
@@ -217,12 +217,12 @@ nvm use 18
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -234,10 +234,10 @@ nvm use 18
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/Users/yourname/.nvm/versions/node/v18.20.0/bin/node",
       "args": [
-        "/Users/yourname/projects/sql-mcp/dist/index.js",
+        "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
         "--stdio"
       ]
     }
@@ -289,7 +289,7 @@ Connect to PostgreSQL:
 - Password: [your-password]
 ```
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method
 NPX automatically uses the latest version. To force update:
@@ -300,7 +300,7 @@ npx clear-npx-cache
 
 ### Local Method
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -311,7 +311,7 @@ npm run build
 
 1. **Remove from config**:
    - Open claude_desktop_config.json
-   - Remove the "sql-mcp" entry
+   - Remove the "sql-lens-mcp" entry
    - Save file
 
 2. **Restart Claude Desktop**
@@ -324,8 +324,8 @@ npm run build
 ## Getting Help
 
 - **Troubleshooting Guide**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
-- **Issues**: [GitHub Issues](https://github.com/varkart/mcp-sql-explorer/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **Issues**: [GitHub Issues](https://github.com/varkart/sql-lens-mcp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 
 ## Next Steps
 

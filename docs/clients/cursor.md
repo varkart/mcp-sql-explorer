@@ -1,6 +1,6 @@
 # Cursor Setup Guide
 
-Complete setup instructions for using sql-mcp with Cursor, the AI-powered code editor.
+Complete setup instructions for using sql-lens-mcp with Cursor, the AI-powered code editor.
 
 ## Prerequisites
 
@@ -20,9 +20,9 @@ Complete setup instructions for using sql-mcp with Cursor, the AI-powered code e
    ```json
    {
      "cursor.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -33,15 +33,15 @@ Complete setup instructions for using sql-mcp with Cursor, the AI-powered code e
 4. **Verify connection**:
    - Open Cursor AI chat (`Cmd+L` or `Ctrl+L`)
    - Type: "What database tools do you have?"
-   - Should see sql-mcp tools listed
+   - Should see sql-lens-mcp tools listed
 
 ### Method 2: Local Development
 
-For developers working on sql-mcp:
+For developers working on sql-lens-mcp:
 
 1. **Build the project**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -49,7 +49,7 @@ For developers working on sql-mcp:
 2. **Get absolute path**:
    ```bash
    pwd
-   # Output: /Users/yourname/projects/sql-mcp
+   # Output: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open Cursor Settings (JSON)**
@@ -58,10 +58,10 @@ For developers working on sql-mcp:
    ```json
    {
      "cursor.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -95,9 +95,9 @@ For developers working on sql-mcp:
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -107,11 +107,11 @@ For developers working on sql-mcp:
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug"
       }
     }
   }
@@ -122,9 +122,9 @@ For developers working on sql-mcp:
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -150,7 +150,7 @@ Create `.cursor/settings.json` in your project root:
   "cursor.mcpServers": {
     "project-db": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -217,7 +217,7 @@ npx --version
 **Debug**:
 ```bash
 # Test server standalone
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 node debug-server.js
 
 # Expected output:
@@ -235,7 +235,7 @@ If this fails, see [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 chmod 600 ~/Library/Application\ Support/Cursor/User/settings.json
 
 # For local installation
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 ```
 
 ### Issue: Different Node.js versions
@@ -254,9 +254,9 @@ which node
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/Users/yourname/.nvm/versions/node/v20.19.0/bin/node",
-      "args": ["/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -333,16 +333,16 @@ Connect to both my staging and production databases, then compare the schema of 
   "cursor.mcpServers": {
     "sql-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
     "sql-staging": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "staging"
+        "SQL_LENS_MCP_ENV": "staging"
       }
     }
   }
@@ -354,12 +354,12 @@ Connect to both my staging and production databases, then compare the schema of 
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_MAX_ROWS": "5000",
-        "SQL_MCP_QUERY_TIMEOUT": "30000"
+        "SQL_LENS_MCP_MAX_ROWS": "5000",
+        "SQL_LENS_MCP_QUERY_TIMEOUT": "30000"
       }
     }
   }
@@ -368,14 +368,14 @@ Connect to both my staging and production databases, then compare the schema of 
 
 ### Integration with Other MCP Servers
 
-Combine sql-mcp with filesystem for complete workflow:
+Combine sql-lens-mcp with filesystem for complete workflow:
 
 ```json
 {
   "cursor.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -392,7 +392,7 @@ Query the users table, then save the results to data/users.json
 
 ## Cursor-Specific Tips
 
-1. **Use Cursor's composer mode** (`Cmd+K`) with sql-mcp for multi-file operations
+1. **Use Cursor's composer mode** (`Cmd+K`) with sql-lens-mcp for multi-file operations
 2. **Combine with codebase search** to find where queries are used
 3. **Use inline chat** to quickly modify SQL in code files
 4. **Leverage Cursor's git integration** to review schema changes
@@ -404,7 +404,7 @@ Query the users table, then save the results to data/users.json
 - **Command Palette**: `Cmd+Shift+P` / `Ctrl+Shift+P`
 - **Settings**: `Cmd+,` / `Ctrl+,`
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method (Auto-updates)
 NPX automatically uses the latest version. To force cache clear:
@@ -415,7 +415,7 @@ Then restart Cursor.
 
 ### Local Development
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -426,11 +426,11 @@ Then restart Cursor.
 
 1. **Open settings.json** in Cursor
 
-2. **Remove sql-mcp entry**:
+2. **Remove sql-lens-mcp entry**:
    ```json
    {
      "cursor.mcpServers": {
-       // Remove "sql-mcp" block
+       // Remove "sql-lens-mcp" block
      }
    }
    ```
@@ -446,15 +446,15 @@ Then restart Cursor.
 
 - **Cursor Output Panel**: View → Output → Select "MCP"
 - **Developer Console**: Help → Toggle Developer Tools
-- **sql-mcp Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+- **sql-lens-mcp Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **Cursor Docs**: [cursor.sh/docs](https://cursor.sh/docs)
-- **GitHub Issues**: [Report issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **GitHub Issues**: [Report issues](https://github.com/varkart/sql-lens-mcp/issues)
 
 ## Getting Help
 
-- **Documentation**: [sql-mcp README](../../README.md)
+- **Documentation**: [sql-lens-mcp README](../../README.md)
 - **Examples**: [Example workflows](../../examples/)
-- **Community**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **Community**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 - **Cursor Community**: [Cursor Forum](https://forum.cursor.sh/)
 
 ## Next Steps
@@ -462,4 +462,4 @@ Then restart Cursor.
 - [Learn about supported databases](../../README.md#supported-databases)
 - [View security features](../../README.md#security)
 - [Explore other MCP clients](../clients/)
-- [Contribute to sql-mcp](../../CONTRIBUTING.md)
+- [Contribute to sql-lens-mcp](../../CONTRIBUTING.md)

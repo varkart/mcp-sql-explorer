@@ -1,6 +1,6 @@
 # ChatGPT Desktop Setup Guide
 
-Complete setup instructions for using sql-mcp with ChatGPT Desktop and ChatGPT web.
+Complete setup instructions for using sql-lens-mcp with ChatGPT Desktop and ChatGPT web.
 
 ## Important Note: Architecture Differences
 
@@ -9,7 +9,7 @@ ChatGPT's MCP integration differs from Claude's approach:
 - **Claude**: Reads local JSON config, runs MCP servers locally via stdio
 - **ChatGPT**: Requires remote HTTPS endpoints with OAuth authentication
 
-**sql-mcp is designed for stdio transport** (local execution), which means using it with ChatGPT requires additional infrastructure to expose it as an HTTPS endpoint.
+**sql-lens-mcp is designed for stdio transport** (local execution), which means using it with ChatGPT requires additional infrastructure to expose it as an HTTPS endpoint.
 
 ## Prerequisites
 
@@ -22,13 +22,13 @@ ChatGPT's MCP integration differs from Claude's approach:
 
 ### Option 1: Local with Tunnel (Development)
 
-Use a tunnel to expose your local sql-mcp server as HTTPS endpoint.
+Use a tunnel to expose your local sql-lens-mcp server as HTTPS endpoint.
 
-#### Step 1: Install sql-mcp
+#### Step 1: Install sql-lens-mcp
 
 ```bash
-git clone https://github.com/varkart/mcp-sql-explorer.git
-cd sql-mcp
+git clone https://github.com/varkart/sql-lens-mcp.git
+cd sql-lens-mcp
 npm install
 npm run build
 ```
@@ -39,11 +39,11 @@ npm run build
 npm install -g @modelcontextprotocol/server-http-bridge
 ```
 
-#### Step 3: Run sql-mcp with HTTP Bridge
+#### Step 3: Run sql-lens-mcp with HTTP Bridge
 
 ```bash
-# Start sql-mcp with HTTP bridge
-mcp-http-bridge --stdio --port 3000 -- node /path/to/sql-mcp/dist/index.js
+# Start sql-lens-mcp with HTTP bridge
+mcp-http-bridge --stdio --port 3000 -- node /path/to/sql-lens-mcp/dist/index.js
 ```
 
 This creates an HTTP server on port 3000 that wraps your stdio MCP server.
@@ -79,7 +79,7 @@ Copy the HTTPS URL provided.
 
 3. **Add MCP Server**:
    - Click "Add MCP Server"
-   - Name: `sql-mcp`
+   - Name: `sql-lens-mcp`
    - URL: `https://your-tunnel-url.ngrok.io/sse/` (must end with `/sse/`)
    - Click "Connect"
 
@@ -90,7 +90,7 @@ Copy the HTTPS URL provided.
 
 ### Option 2: Cloud Hosting (Production)
 
-For production use, host sql-mcp on a cloud platform with HTTPS.
+For production use, host sql-lens-mcp on a cloud platform with HTTPS.
 
 #### Deployment Options
 
@@ -111,7 +111,7 @@ CMD ["node", "dist/http-server.js"]
 
 2. **Deploy to Cloud Run**:
 ```bash
-gcloud run deploy sql-mcp \
+gcloud run deploy sql-lens-mcp \
   --source . \
   --region us-central1 \
   --allow-unauthenticated
@@ -124,7 +124,7 @@ gcloud run deploy sql-mcp \
 1. **Package as Lambda**:
 ```bash
 npm install --only=production
-zip -r sql-mcp.zip dist node_modules package.json
+zip -r sql-lens-mcp.zip dist node_modules package.json
 ```
 
 2. **Deploy to Lambda**:
@@ -154,7 +154,7 @@ fly deploy
 
 1. **Open ChatGPT Developer Mode**
 2. **Add MCP Server**:
-   - Name: `sql-mcp`
+   - Name: `sql-lens-mcp`
    - URL: `https://your-cloud-url.com/sse/`
    - OAuth (if configured): Add credentials
 3. **Save and Test**
@@ -200,9 +200,9 @@ For secured endpoints:
 Pass to cloud deployment:
 
 ```bash
-SQL_MCP_LOG_LEVEL=info
-SQL_MCP_MAX_ROWS=1000
-SQL_MCP_QUERY_TIMEOUT=30000
+SQL_LENS_MCP_LOG_LEVEL=info
+SQL_LENS_MCP_MAX_ROWS=1000
+SQL_LENS_MCP_QUERY_TIMEOUT=30000
 ```
 
 ## Testing the Connection
@@ -216,7 +216,7 @@ curl https://your-server.com/sse/
 
 3. **Check connection status**:
    - Settings → Developer Mode → MCP Servers
-   - sql-mcp should show "Connected"
+   - sql-lens-mcp should show "Connected"
 
 4. **Test with prompt**:
 ```
@@ -250,9 +250,9 @@ List all available database tools
 1. **ngrok**: Use paid plan for stable URLs
 2. **cloudflared**: Set up persistent tunnel:
    ```bash
-   cloudflared tunnel create sql-mcp
-   cloudflared tunnel route dns sql-mcp sql-mcp.yourdomain.com
-   cloudflared tunnel run sql-mcp
+   cloudflared tunnel create sql-lens-mcp
+   cloudflared tunnel route dns sql-lens-mcp sql-lens-mcp.yourdomain.com
+   cloudflared tunnel run sql-lens-mcp
    ```
 
 ### Issue: Developer Mode not available
@@ -290,12 +290,12 @@ Add CORS headers to HTTP bridge:
 1. **Use OAuth** for production deployments
 2. **Enable read-only mode** for sensitive databases:
    ```bash
-   SQL_MCP_READ_ONLY=true
+   SQL_LENS_MCP_READ_ONLY=true
    ```
 3. **Set query limits**:
    ```bash
-   SQL_MCP_MAX_ROWS=100
-   SQL_MCP_QUERY_TIMEOUT=10000
+   SQL_LENS_MCP_MAX_ROWS=100
+   SQL_LENS_MCP_QUERY_TIMEOUT=10000
    ```
 4. **Monitor logs** for suspicious queries
 5. **Use environment variables** for credentials (never hardcode)
@@ -363,12 +363,12 @@ Connect to PostgreSQL:
 - **ngrok Pro**: $10/month (stable URLs)
 - **Fly.io**: ~$5-15/month
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### Tunnel Method
 ```bash
 # Update local installation
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -386,7 +386,7 @@ npm install
 npm run build
 
 # Specific to platform:
-gcloud run deploy sql-mcp --source .  # Cloud Run
+gcloud run deploy sql-lens-mcp --source .  # Cloud Run
 railway up                              # Railway
 render deploy                           # Render
 ```
@@ -414,7 +414,7 @@ Current limitations of ChatGPT MCP integration:
 
 - **Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **ChatGPT Developer Docs**: [developers.openai.com/api/docs/mcp](https://developers.openai.com/api/docs/mcp)
-- **Issues**: [GitHub Issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **Issues**: [GitHub Issues](https://github.com/varkart/sql-lens-mcp/issues)
 - **OpenAI Community**: [community.openai.com](https://community.openai.com)
 
 ## Resources

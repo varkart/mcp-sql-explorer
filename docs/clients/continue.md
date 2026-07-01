@@ -1,6 +1,6 @@
 # Continue Setup Guide
 
-Complete setup instructions for using sql-mcp with Continue, the open-source AI code assistant.
+Complete setup instructions for using sql-lens-mcp with Continue, the open-source AI code assistant.
 
 ## Prerequisites
 
@@ -23,9 +23,9 @@ Complete setup instructions for using sql-mcp with Continue, the open-source AI 
    ```json
    {
      "mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -38,13 +38,13 @@ Complete setup instructions for using sql-mcp with Continue, the open-source AI 
 4. **Verify connection**:
    - Open Continue chat
    - Type: "What database tools do you have?"
-   - Should see sql-mcp tools
+   - Should see sql-lens-mcp tools
 
 ### Method 2: Local Development
 
-1. **Build sql-mcp**:
+1. **Build sql-lens-mcp**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -52,7 +52,7 @@ Complete setup instructions for using sql-mcp with Continue, the open-source AI 
 2. **Get absolute path**:
    ```bash
    pwd
-   # Example: /Users/yourname/projects/sql-mcp
+   # Example: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open Continue config.json**
@@ -61,10 +61,10 @@ Complete setup instructions for using sql-mcp with Continue, the open-source AI 
    ```json
    {
      "mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -105,9 +105,9 @@ Replace `<IDE>` with: `IntelliJIdea2024.1`, `PyCharm2024.1`, etc.
     }
   ],
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -117,12 +117,12 @@ Replace `<IDE>` with: `IntelliJIdea2024.1`, `PyCharm2024.1`, etc.
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -133,9 +133,9 @@ Replace `<IDE>` with: `IntelliJIdea2024.1`, `PyCharm2024.1`, etc.
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -168,9 +168,9 @@ Replace `<IDE>` with: `IntelliJIdea2024.1`, `PyCharm2024.1`, etc.
     }
   ],
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   },
   "contextProviders": [
@@ -268,7 +268,7 @@ npm install -g npm@latest
 **Debug**:
 ```bash
 # Test standalone
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 node debug-server.js
 
 # Expected:
@@ -285,7 +285,7 @@ See [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md) if fails.
 chmod 600 ~/.continue/config.json
 
 # Fix dist permissions
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 ```
 
 ### Issue: Different Node.js versions
@@ -302,9 +302,9 @@ where node    # Windows
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/usr/local/bin/node",
-      "args": ["/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -314,7 +314,7 @@ where node    # Windows
 
 ### Slash Commands with SQL
 
-Use Continue's slash commands with sql-mcp:
+Use Continue's slash commands with sql-lens-mcp:
 
 ```
 /edit Connect to my PostgreSQL database and update this function to use the users table schema
@@ -401,16 +401,16 @@ Export the results to a CSV file in the project root
   "mcpServers": {
     "sql-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
     "sql-staging": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "staging"
+        "SQL_LENS_MCP_ENV": "staging"
       }
     }
   }
@@ -422,15 +422,15 @@ Export the results to a CSV file in the project root
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/path/to/sql-mcp/dist/index.js",
+        "/path/to/sql-lens-mcp/dist/index.js",
         "--stdio",
         "--debug"
       ],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug"
       }
     }
   }
@@ -442,12 +442,12 @@ Export the results to a CSV file in the project root
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_MAX_ROWS": "5000",
-        "SQL_MCP_QUERY_TIMEOUT": "60000"
+        "SQL_LENS_MCP_MAX_ROWS": "5000",
+        "SQL_LENS_MCP_QUERY_TIMEOUT": "60000"
       }
     }
   }
@@ -466,7 +466,7 @@ Export the results to a CSV file in the project root
 2. **Open config**:
    - Tools → Continue → Open config.json
 
-3. **Add sql-mcp** as shown above
+3. **Add sql-lens-mcp** as shown above
 
 4. **Restart IDE**
 
@@ -477,7 +477,7 @@ Export the results to a CSV file in the project root
 - **WebStorm**: `~/.config/JetBrains/WebStorm2024.1/continue/config.json`
 - **GoLand**: `~/.config/JetBrains/GoLand2024.1/continue/config.json`
 
-## Tips for Using Continue with sql-mcp
+## Tips for Using Continue with sql-lens-mcp
 
 1. **Use @ mentions** to reference database connections in chat
 2. **Combine with codebase** context for schema-aware development
@@ -496,7 +496,7 @@ Export the results to a CSV file in the project root
 - **Open Continue**: `Cmd+J` (Mac) / `Ctrl+J` (Windows/Linux)
 - **Settings**: `Cmd+,` (Mac) / `Ctrl+Alt+S` (Windows/Linux)
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method
 Automatically uses latest version. Clear cache:
@@ -507,7 +507,7 @@ Then reload window/IDE.
 
 ### Local Development
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -517,7 +517,7 @@ Then reload window/IDE.
 ## Uninstalling
 
 1. **Open config.json** in Continue
-2. **Remove sql-mcp entry** from `mcpServers`
+2. **Remove sql-lens-mcp entry** from `mcpServers`
 3. **Save and reload** window/IDE
 4. **Clear cache** (optional):
    ```bash
@@ -528,16 +528,16 @@ Then reload window/IDE.
 
 - **Continue Output**: View → Output → "Continue" (VS Code)
 - **Continue Logs**: `~/.continue/logs/` directory
-- **sql-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+- **sql-lens-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **Continue Docs**: [continue.dev/docs](https://continue.dev/docs)
-- **GitHub Issues**: [Report issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **GitHub Issues**: [Report issues](https://github.com/varkart/sql-lens-mcp/issues)
 
 ## Getting Help
 
 - **Continue Discord**: [Join here](https://discord.gg/EfJEfdFnDQ)
-- **sql-mcp Docs**: [README](../../README.md)
+- **sql-lens-mcp Docs**: [README](../../README.md)
 - **Examples**: [Workflow examples](../../examples/)
-- **Community**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **Community**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 
 ## Next Steps
 

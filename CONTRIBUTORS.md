@@ -1,6 +1,6 @@
 # Contributors
 
-Thank you to everyone who has contributed to sql-mcp!
+Thank you to everyone who has contributed to sql-lens-mcp!
 
 ## Project Creator & Maintainer
 
@@ -18,7 +18,7 @@ Contributors are recognized in the following ways:
 - Listed on this page
 - Mentioned in release notes
 - Credited in pull request merge commits
-- Listed on the [GitHub Contributors page](https://github.com/varkart/mcp-sql-explorer/graphs/contributors)
+- Listed on the [GitHub Contributors page](https://github.com/varkart/sql-lens-mcp/graphs/contributors)
 
 ## Security Researchers
 

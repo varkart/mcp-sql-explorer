@@ -48,10 +48,10 @@ node debug-server.js
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js",
+        "/ABSOLUTE/PATH/TO/sql-lens-mcp/dist/index.js",
         "--stdio"
       ],
       "env": {}
@@ -68,11 +68,11 @@ node debug-server.js
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "type": "stdio",
       "command": "node",
       "args": [
-        "/ABSOLUTE/PATH/TO/sql-mcp/dist/index.js"
+        "/ABSOLUTE/PATH/TO/sql-lens-mcp/dist/index.js"
       ],
       "env": {}
     }
@@ -87,14 +87,14 @@ node debug-server.js
 
 **Common mistake**: Using the wrong path. The project structure is:
 ```
-sql-mcp/
+sql-lens-mcp/
   dist/
     index.js  ← Correct path
   NOT packages/server/dist/index.js
 ```
 
 ⚠️ **Important**:
-- Replace `/ABSOLUTE/PATH/TO/sql-mcp/` with the **full absolute path** to your project
+- Replace `/ABSOLUTE/PATH/TO/sql-lens-mcp/` with the **full absolute path** to your project
 - Use forward slashes even on Windows
 - No trailing slashes
 
@@ -102,10 +102,10 @@ sql-mcp/
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/Users/yourname/projects/sql-mcp/dist/index.js",
+        "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
         "--stdio"
       ],
       "env": {}
@@ -118,10 +118,10 @@ sql-mcp/
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "C:/Users/yourname/projects/sql-mcp/dist/index.js",
+        "C:/Users/yourname/projects/sql-lens-mcp/dist/index.js",
         "--stdio"
       ],
       "env": {}
@@ -173,7 +173,7 @@ tail -f server.log
 - Windows: `%APPDATA%\Claude\logs\`
 - Linux: `~/.config/Claude/logs/`
 
-Look for errors mentioning "sql-mcp" or connection failures.
+Look for errors mentioning "sql-lens-mcp" or connection failures.
 
 ---
 
@@ -201,12 +201,12 @@ npm run build
 1. Get the absolute path:
    ```bash
    pwd
-   # Output: /Users/yourname/projects/sql-mcp
+   # Output: /Users/yourname/projects/sql-lens-mcp
    ```
 
 2. Use this in your config:
    ```json
-   "args": ["/Users/yourname/projects/sql-mcp/dist/index.js", "--stdio"]
+   "args": ["/Users/yourname/projects/sql-lens-mcp/dist/index.js", "--stdio"]
    ```
 
 ### Issue: "Permission denied"
@@ -251,8 +251,8 @@ Then update your Claude Desktop config to use the global command:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
-      "command": "sql-mcp",
+    "sql-lens-mcp": {
+      "command": "sql-lens-mcp",
       "args": ["--stdio"]
     }
   }
@@ -261,8 +261,8 @@ Then update your Claude Desktop config to use the global command:
 
 Find where the global installation is:
 ```bash
-which sql-mcp
-# Output: /usr/local/bin/sql-mcp or /opt/homebrew/bin/sql-mcp
+which sql-lens-mcp
+# Output: /usr/local/bin/sql-lens-mcp or /opt/homebrew/bin/sql-lens-mcp
 ```
 
 **Option 2: Grant Full Disk Access**
@@ -280,19 +280,19 @@ If you need to use the local development version:
 
 Move your project to a location that doesn't require Full Disk Access:
 - `/usr/local/projects/`
-- Your home directory root (`~/sql-mcp/`)
+- Your home directory root (`~/sql-lens-mcp/`)
 - Avoid: `~/Documents/`, `~/Desktop/`, `~/Downloads/`
 
 **Important: Global vs Local Development**
 
 When you have both global and local installations:
 
-- **Global**: `/usr/local/bin/sql-mcp` → `/usr/local/lib/node_modules/sql-mcp/`
-- **Local**: `~/Documents/projects/sql-mcp/`
+- **Global**: `/usr/local/bin/sql-lens-mcp` → `/usr/local/lib/node_modules/sql-lens-mcp/`
+- **Local**: `~/Documents/projects/sql-lens-mcp/`
 
 They are **separate copies**:
 - Global installation won't auto-update with local code changes
-- Claude Desktop using `sql-mcp` command runs the global version
+- Claude Desktop using `sql-lens-mcp` command runs the global version
 - Claude Desktop using full path runs the local version
 
 **To sync local changes to global installation**:
@@ -309,10 +309,10 @@ npm run build
 **Check which version is installed**:
 ```bash
 # Show global installation location
-npm list -g sql-mcp
+npm list -g sql-lens-mcp
 
 # Show global package timestamp
-ls -la $(npm root -g)/sql-mcp/dist/index.js
+ls -la $(npm root -g)/sql-lens-mcp/dist/index.js
 
 # Compare with local version
 ls -la ./dist/index.js
@@ -363,7 +363,7 @@ node --version
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/usr/local/bin/node",  // or "C:/Program Files/nodejs/node.exe"
       "args": ["/absolute/path/to/dist/index.js", "--stdio"]
     }
@@ -406,7 +406,7 @@ npm run build
 
 ### Check for Port Conflicts
 
-Although sql-mcp uses stdio (not ports), if you're testing HTTP mode:
+Although sql-lens-mcp uses stdio (not ports), if you're testing HTTP mode:
 
 ```bash
 # Check if port 3000 is in use
@@ -439,7 +439,7 @@ npm list --depth=0
 
 ### Get Help
 
-1. **Check existing issues**: https://github.com/varkart/mcp-sql-explorer/issues
+1. **Check existing issues**: https://github.com/varkart/sql-lens-mcp/issues
 2. **Open a new issue** with:
    - Output from debug-server.js
    - Your MCP client config (remove sensitive data)
@@ -461,10 +461,10 @@ After fixing, verify the connection works:
 1. **Verify which version is running** (if you have both global and local):
    ```bash
    # Check global version location
-   which sql-mcp
+   which sql-lens-mcp
 
    # Check if it's the latest
-   ls -la $(which sql-mcp)
+   ls -la $(which sql-lens-mcp)
    ls -la ./dist/index.js
    ```
 
@@ -507,7 +507,7 @@ After fixing, verify the connection works:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": ["ABSOLUTE_PATH/dist/index.js", "--stdio"],
       "env": {}

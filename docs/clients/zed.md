@@ -1,6 +1,6 @@
 # Zed Setup Guide
 
-Complete setup instructions for using sql-mcp with Zed, the high-performance code editor.
+Complete setup instructions for using sql-lens-mcp with Zed, the high-performance code editor.
 
 ## Prerequisites
 
@@ -29,9 +29,9 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
        }
      },
      "context_servers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -45,9 +45,9 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
 
 ### Method 2: Local Development
 
-1. **Build sql-mcp**:
+1. **Build sql-lens-mcp**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -55,7 +55,7 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
 2. **Get absolute path**:
    ```bash
    pwd
-   # Example: /Users/yourname/projects/sql-mcp
+   # Example: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open Zed settings.json**
@@ -64,10 +64,10 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
    ```json
    {
      "context_servers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -98,9 +98,9 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -110,12 +110,12 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -126,9 +126,9 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -156,9 +156,9 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
     }
   },
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   },
   "assistant": {
@@ -179,7 +179,7 @@ Complete setup instructions for using sql-mcp with Zed, the high-performance cod
    What database tools do you have available?
    ```
 
-3. **Expected**: List of sql-mcp tools
+3. **Expected**: List of sql-lens-mcp tools
 
 4. **Test connection**:
    ```
@@ -229,7 +229,7 @@ npm install -g npm@latest
 **Debug**:
 ```bash
 # Test standalone
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 node debug-server.js
 
 # Expected output:
@@ -246,7 +246,7 @@ If fails, see [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 chmod 600 ~/.config/zed/settings.json
 
 # Fix dist permissions
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 ```
 
 ### Issue: Zed not finding Node.js
@@ -265,9 +265,9 @@ which node
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/usr/local/bin/node",
-      "args": ["/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -300,10 +300,10 @@ Zed is written in Rust and optimized for speed:
 
 ### Collaborative Editing
 
-Use sql-mcp in Zed's collaborative mode:
+Use sql-lens-mcp in Zed's collaborative mode:
 
 1. Start collaboration: `Cmd+Shift+P` → "Collaboration: Share Project"
-2. All participants can use sql-mcp together
+2. All participants can use sql-lens-mcp together
 3. Database queries visible to all collaborators
 
 ## Example Workflows
@@ -350,17 +350,17 @@ I need to add an index on the email column of users table. Write the migration S
   "context_servers": {
     "sql-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
     "sql-prod-readonly": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "production",
-        "SQL_MCP_READ_ONLY": "true"
+        "SQL_LENS_MCP_ENV": "production",
+        "SQL_LENS_MCP_READ_ONLY": "true"
       }
     }
   }
@@ -372,15 +372,15 @@ I need to add an index on the email column of users table. Write the migration S
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/path/to/sql-mcp/dist/index.js",
+        "/path/to/sql-lens-mcp/dist/index.js",
         "--stdio",
         "--debug"
       ],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
         "NODE_ENV": "development"
       }
     }
@@ -393,12 +393,12 @@ I need to add an index on the email column of users table. Write the migration S
 ```json
 {
   "context_servers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_MAX_ROWS": "10000",
-        "SQL_MCP_QUERY_TIMEOUT": "60000"
+        "SQL_LENS_MCP_MAX_ROWS": "10000",
+        "SQL_LENS_MCP_QUERY_TIMEOUT": "60000"
       }
     }
   }
@@ -414,7 +414,7 @@ Create `.zed/settings.json` in your project:
   "context_servers": {
     "project-db": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -426,7 +426,7 @@ This only applies to the current workspace.
 
 1. **Use keyboard-first workflow**: Zed is optimized for keyboard navigation
 2. **Leverage multi-cursor**: Edit multiple SQL queries simultaneously
-3. **Collaborate in real-time**: Share projects and use sql-mcp together
+3. **Collaborate in real-time**: Share projects and use sql-lens-mcp together
 4. **Fast file switching**: `Cmd+P` to quickly navigate between SQL files
 5. **Integrated terminal**: `Ctrl+\`` for quick database checks
 
@@ -438,7 +438,7 @@ This only applies to the current workspace.
 - **Project Search**: `Cmd+Shift+F` / `Ctrl+Shift+F`
 - **Terminal**: `Ctrl+\``
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method
 Automatically uses latest. Clear cache:
@@ -449,7 +449,7 @@ Settings auto-reload in Zed.
 
 ### Local Development
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -459,7 +459,7 @@ Zed auto-detects changes.
 ## Uninstalling
 
 1. **Open settings.json** in Zed (`Cmd+,`)
-2. **Remove sql-mcp entry** from `context_servers`
+2. **Remove sql-lens-mcp entry** from `context_servers`
 3. **Save** (auto-reloads)
 4. **Clear cache** (optional):
    ```bash
@@ -473,16 +473,16 @@ Zed auto-detects changes.
   ```bash
   tail -f ~/.local/share/zed/logs/Zed.log
   ```
-- **sql-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+- **sql-lens-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **Zed Docs**: [zed.dev/docs](https://zed.dev/docs)
-- **GitHub Issues**: [Report issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **GitHub Issues**: [Report issues](https://github.com/varkart/sql-lens-mcp/issues)
 
 ## Getting Help
 
 - **Zed Community**: [zed.dev/community](https://zed.dev/community)
-- **sql-mcp Docs**: [README](../../README.md)
+- **sql-lens-mcp Docs**: [README](../../README.md)
 - **Examples**: [Workflow examples](../../examples/)
-- **GitHub Discussions**: [Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **GitHub Discussions**: [Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 
 ## Next Steps
 

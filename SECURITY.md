@@ -11,7 +11,7 @@ We actively support the following versions with security updates:
 
 ## Reporting a Vulnerability
 
-We take the security of mcp-sql-explorer seriously. If you discover a security vulnerability, please follow these steps:
+We take the security of sql-lens-mcp seriously. If you discover a security vulnerability, please follow these steps:
 
 ### How to Report
 
@@ -22,7 +22,7 @@ Instead, please report security issues by emailing:
 **security@varkart.com** (or create a GitHub Security Advisory)
 
 Alternatively, you can use GitHub's private vulnerability reporting:
-1. Go to the [Security tab](https://github.com/varkart/mcp-sql-explorer/security)
+1. Go to the [Security tab](https://github.com/varkart/sql-lens-mcp/security)
 2. Click "Report a vulnerability"
 3. Fill out the advisory form
 
@@ -57,7 +57,7 @@ We follow a **coordinated disclosure** approach:
 
 ### Security Best Practices
 
-When using mcp-sql-explorer in production:
+When using sql-lens-mcp in production:
 
 #### 1. Use Read-Only Connections
 ```json
@@ -75,8 +75,8 @@ When using mcp-sql-explorer in production:
 #### 2. Protect Configuration Files
 ```bash
 # Ensure config file has restricted permissions
-chmod 600 ~/.mcp-sql-explorer/config.json
-chmod 600 ~/.mcp-sql-explorer/connections.json
+chmod 600 ~/.sql-lens-mcp/config.json
+chmod 600 ~/.sql-lens-mcp/connections.json
 ```
 
 #### 3. Use Environment Variables for Credentials
@@ -100,8 +100,8 @@ chmod 600 ~/.mcp-sql-explorer/connections.json
 
 #### 5. Regular Updates
 ```bash
-# Keep mcp-sql-explorer up to date
-npm update -g mcp-sql-explorer
+# Keep sql-lens-mcp up to date
+npm update -g sql-lens-mcp
 
 # Check for security advisories
 npm audit
@@ -120,20 +120,20 @@ npm audit
 ### Known Security Considerations
 
 #### Credential Storage
-Connection credentials are stored in `~/.mcp-sql-explorer/connections.json` with mode 0600 (user read/write only). This is similar to how `~/.pgpass` and other database tools store credentials. Users should be aware that credentials are stored in plaintext on disk.
+Connection credentials are stored in `~/.sql-lens-mcp/connections.json` with mode 0600 (user read/write only). This is similar to how `~/.pgpass` and other database tools store credentials. Users should be aware that credentials are stored in plaintext on disk.
 
 **Mitigation**: Use environment variables or external credential management systems for sensitive production environments.
 
 #### SQL Injection
-mcp-sql-explorer implements multiple layers of protection against SQL injection:
+sql-lens-mcp implements multiple layers of protection against SQL injection:
 - Parameterized queries for user inputs
 - Query validation and dangerous pattern detection
 - Multi-statement query blocking
 
-**Best Practice**: Always use parameterized queries when integrating mcp-sql-explorer into applications.
+**Best Practice**: Always use parameterized queries when integrating sql-lens-mcp into applications.
 
 #### Resource Exhaustion
-mcp-sql-explorer implements protection mechanisms:
+sql-lens-mcp implements protection mechanisms:
 - Query timeouts (default: 30s, max: 5 minutes)
 - Row limits (default: 1000, max: 100,000)
 - Connection pooling limits
@@ -177,7 +177,7 @@ We currently do not have a formal bug bounty program. However, we deeply appreci
 
 ### Security Hall of Fame
 
-We recognize security researchers who have helped improve mcp-sql-explorer:
+We recognize security researchers who have helped improve sql-lens-mcp:
 
 - *Be the first to contribute!*
 

@@ -1,6 +1,6 @@
 # MCP Client Setup Guides
 
-sql-mcp works with any MCP-compatible client. Choose your preferred client below for detailed setup instructions.
+sql-lens-mcp works with any MCP-compatible client. Choose your preferred client below for detailed setup instructions.
 
 ## Quick Setup
 
@@ -9,9 +9,9 @@ All clients use a similar configuration pattern:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -86,7 +86,7 @@ Automatically downloads and runs the latest version:
 ```json
 {
   "command": "npx",
-  "args": ["-y", "sql-mcp", "--stdio"]
+  "args": ["-y", "sql-lens-mcp", "--stdio"]
 }
 ```
 
@@ -106,7 +106,7 @@ For contributors or development:
 ```json
 {
   "command": "node",
-  "args": ["/absolute/path/to/sql-mcp/dist/index.js", "--stdio"]
+  "args": ["/absolute/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
 }
 ```
 
@@ -128,9 +128,9 @@ The simplest configuration:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -142,13 +142,13 @@ Control behavior with env vars:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000",
-        "SQL_MCP_QUERY_TIMEOUT": "30000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000",
+        "SQL_LENS_MCP_QUERY_TIMEOUT": "30000"
       }
     }
   }
@@ -156,14 +156,14 @@ Control behavior with env vars:
 ```
 
 ### Multiple MCP Servers
-Combine sql-mcp with other servers:
+Combine sql-lens-mcp with other servers:
 
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -192,23 +192,23 @@ Separate dev/staging/prod configurations:
   "mcpServers": {
     "sql-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
     "sql-staging": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "staging"
+        "SQL_LENS_MCP_ENV": "staging"
       }
     },
     "sql-prod-readonly": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_READ_ONLY": "true"
+        "SQL_LENS_MCP_READ_ONLY": "true"
       }
     }
   }
@@ -223,9 +223,9 @@ Combine database, filesystem, and git access:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -241,11 +241,11 @@ Focus on database access with visualization:
 ```json
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_MAX_ROWS": "10000"
+        "SQL_LENS_MCP_MAX_ROWS": "10000"
       }
     }
   }
@@ -260,10 +260,10 @@ Read-only access to production databases:
   "mcpServers": {
     "prod-db-readonly": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_READ_ONLY": "true",
-        "SQL_MCP_MAX_ROWS": "100"
+        "SQL_LENS_MCP_READ_ONLY": "true",
+        "SQL_LENS_MCP_MAX_ROWS": "100"
       }
     }
   }
@@ -287,7 +287,7 @@ Read-only access to production databases:
 **Solution**:
 ```bash
 # Test server works standalone
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 node debug-server.js
 
 # Expected output:
@@ -351,11 +351,11 @@ Insert 3 sample users into the test database, then show me all users
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SQL_MCP_LOG_LEVEL` | `info` | Logging level: `debug`, `info`, `warn`, `error` |
-| `SQL_MCP_MAX_ROWS` | `1000` | Maximum rows returned per query |
-| `SQL_MCP_QUERY_TIMEOUT` | `30000` | Query timeout in milliseconds |
-| `SQL_MCP_ENV` | - | Environment identifier (dev, staging, prod) |
-| `SQL_MCP_READ_ONLY` | `false` | Force read-only mode if `true` |
+| `SQL_LENS_MCP_LOG_LEVEL` | `info` | Logging level: `debug`, `info`, `warn`, `error` |
+| `SQL_LENS_MCP_MAX_ROWS` | `1000` | Maximum rows returned per query |
+| `SQL_LENS_MCP_QUERY_TIMEOUT` | `30000` | Query timeout in milliseconds |
+| `SQL_LENS_MCP_ENV` | - | Environment identifier (dev, staging, prod) |
+| `SQL_LENS_MCP_READ_ONLY` | `false` | Force read-only mode if `true` |
 
 ## Config File Locations by Client
 
@@ -389,8 +389,8 @@ Insert 3 sample users into the test database, then show me all users
 ## Getting Help
 
 - **Client-specific issues**: See individual client guides above
-- **sql-mcp issues**: [GitHub Issues](https://github.com/varkart/mcp-sql-explorer/issues)
-- **General questions**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **sql-lens-mcp issues**: [GitHub Issues](https://github.com/varkart/sql-lens-mcp/issues)
+- **General questions**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 - **Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 
 ## Next Steps
@@ -406,17 +406,17 @@ Insert 3 sample users into the test database, then show me all users
 
 ## Additional Clients
 
-Don't see your client? sql-mcp works with any MCP-compatible client. The general pattern:
+Don't see your client? sql-lens-mcp works with any MCP-compatible client. The general pattern:
 
 ```json
 {
   "[client-specific-key]": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
 ```
 
-Check your client's MCP documentation for the specific configuration format, or [open an issue](https://github.com/varkart/mcp-sql-explorer/issues) to request a setup guide.
+Check your client's MCP documentation for the specific configuration format, or [open an issue](https://github.com/varkart/sql-lens-mcp/issues) to request a setup guide.

@@ -1,6 +1,6 @@
 # Cline (VS Code) Setup Guide
 
-Complete setup instructions for using sql-mcp with Cline, the VS Code extension for Claude.
+Complete setup instructions for using sql-lens-mcp with Cline, the VS Code extension for Claude.
 
 ## Prerequisites
 
@@ -22,9 +22,9 @@ Complete setup instructions for using sql-mcp with Cline, the VS Code extension 
    ```json
    {
      "cline.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -41,15 +41,15 @@ Complete setup instructions for using sql-mcp with Cline, the VS Code extension 
 
 5. **Verify connection**:
    - In Cline chat, type: "What database tools do you have?"
-   - Should see sql-mcp tools listed
+   - Should see sql-lens-mcp tools listed
 
 ### Method 2: Local Development
 
-For developers working on sql-mcp locally:
+For developers working on sql-lens-mcp locally:
 
 1. **Build the project**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -57,7 +57,7 @@ For developers working on sql-mcp locally:
 2. **Get absolute path**:
    ```bash
    pwd
-   # Example: /Users/yourname/projects/sql-mcp
+   # Example: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open VS Code Settings (JSON)**
@@ -66,10 +66,10 @@ For developers working on sql-mcp locally:
    ```json
    {
      "cline.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -86,9 +86,9 @@ For developers working on sql-mcp locally:
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -98,12 +98,12 @@ For developers working on sql-mcp locally:
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -114,9 +114,9 @@ For developers working on sql-mcp locally:
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -133,9 +133,9 @@ Create `.vscode/settings.json` in your project:
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -173,7 +173,7 @@ This configuration only applies to the current workspace.
 1. Check Cline output panel:
    - View → Output
    - Select "Cline" from dropdown
-   - Look for errors mentioning sql-mcp
+   - Look for errors mentioning sql-lens-mcp
 2. Verify Node.js version: `node --version` (must be >= 20)
 3. Check JSON syntax in settings.json
 4. Reload VS Code window
@@ -198,7 +198,7 @@ npx --version
 **Solution (macOS/Linux)**:
 ```bash
 # Fix permissions for local installation
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 
 # Or use specific Node.js path
 which node
@@ -215,7 +215,7 @@ which node
 
 1. **Test server manually**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    node debug-server.js
    ```
 
@@ -251,7 +251,7 @@ which node
 - File: `.vscode/settings.json` in project root
 - Use for project-specific database connections
 
-**Example**: User settings for sql-mcp globally, workspace settings for project-specific filesystem access.
+**Example**: User settings for sql-lens-mcp globally, workspace settings for project-specific filesystem access.
 
 ## Example Prompts for Cline
 
@@ -311,10 +311,10 @@ Show me the schema of the orders table and generate a SQL migration to add a cre
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/Users/yourname/.nvm/versions/node/v20.19.0/bin/node",
       "args": [
-        "/Users/yourname/projects/sql-mcp/dist/index.js",
+        "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
         "--stdio"
       ]
     }
@@ -327,15 +327,15 @@ Show me the schema of the orders table and generate a SQL migration to add a cre
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/path/to/sql-mcp/dist/index.js",
+        "/path/to/sql-lens-mcp/dist/index.js",
         "--stdio",
         "--debug"
       ],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug"
       }
     }
   }
@@ -347,25 +347,25 @@ Show me the schema of the orders table and generate a SQL migration to add a cre
 ```json
 {
   "cline.mcpServers": {
-    "sql-mcp-dev": {
+    "sql-lens-mcp-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
-    "sql-mcp-prod": {
+    "sql-lens-mcp-prod": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "production"
+        "SQL_LENS_MCP_ENV": "production"
       }
     }
   }
 }
 ```
 
-## Tips for Using Cline with sql-mcp
+## Tips for Using Cline with sql-lens-mcp
 
 1. **Use descriptive connection IDs**: "local-pg", "staging-mysql", "prod-readonly"
 
@@ -377,7 +377,7 @@ Show me the schema of the orders table and generate a SQL migration to add a cre
 
 5. **Migration workflows**: Have Cline help write and test migrations
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method
 Automatically gets latest version on each use. To clear cache:
@@ -388,7 +388,7 @@ Then reload VS Code.
 
 ### Local Development Method
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -398,7 +398,7 @@ Then reload VS Code window.
 ## Uninstalling
 
 1. **Remove from settings.json**:
-   - Delete the "sql-mcp" entry from "cline.mcpServers"
+   - Delete the "sql-lens-mcp" entry from "cline.mcpServers"
    - Save file
 
 2. **Reload VS Code**:
@@ -413,8 +413,8 @@ Then reload VS Code window.
 
 - **Cline Output Panel**: View → Output → Select "Cline"
 - **VS Code Developer Tools**: Help → Toggle Developer Tools
-- **sql-mcp Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
-- **GitHub Issues**: [Report issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **sql-lens-mcp Troubleshooting**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+- **GitHub Issues**: [Report issues](https://github.com/varkart/sql-lens-mcp/issues)
 
 ## Next Steps
 
