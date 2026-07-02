@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
         "~/projects/mcp-sql-query/dist/index.js",

@@ -1,6 +1,6 @@
 # Windsurf Setup Guide
 
-Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native IDE.
+Complete setup instructions for using sql-lens-mcp with Windsurf, Codeium's AI-native IDE.
 
 ## Prerequisites
 
@@ -22,13 +22,13 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 3. **Edit MCP Servers configuration**:
    - Click "Edit in settings.json"
 
-4. **Add sql-mcp configuration**:
+4. **Add sql-lens-mcp configuration**:
    ```json
    {
      "windsurf.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -42,9 +42,9 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 
 ### Method 2: Local Development
 
-1. **Build sql-mcp**:
+1. **Build sql-lens-mcp**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -52,7 +52,7 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 2. **Get absolute path**:
    ```bash
    pwd
-   # Example: /Users/yourname/projects/sql-mcp
+   # Example: /Users/yourname/projects/sql-lens-mcp
    ```
 
 3. **Open Windsurf settings.json**
@@ -61,10 +61,10 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
    ```json
    {
      "windsurf.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/Users/yourname/projects/sql-mcp/dist/index.js",
+           "/Users/yourname/projects/sql-lens-mcp/dist/index.js",
            "--stdio"
          ],
          "env": {}
@@ -98,9 +98,9 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -110,12 +110,12 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -126,9 +126,9 @@ Complete setup instructions for using sql-mcp with Windsurf, Codeium's AI-native
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -151,7 +151,7 @@ Create `.windsurf/settings.json` in project root:
   "windsurf.mcpServers": {
     "project-db": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -168,7 +168,7 @@ Create `.windsurf/settings.json` in project root:
    What database tools do you have available?
    ```
 
-3. **Expected response**: List of sql-mcp tools
+3. **Expected response**: List of sql-lens-mcp tools
 
 4. **Test connection**:
    ```
@@ -216,7 +216,7 @@ npm install -g npm@latest
 **Debug**:
 ```bash
 # Test standalone
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 node debug-server.js
 
 # Should output:
@@ -233,7 +233,7 @@ If fails, see [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 chmod 600 ~/Library/Application\ Support/Windsurf/User/settings.json
 
 # Fix dist permissions
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 ```
 
 ### Issue: Different Node.js versions
@@ -251,9 +251,9 @@ which node
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/usr/local/bin/node",
-      "args": ["/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -263,7 +263,7 @@ which node
 
 ### Cascade Flows with SQL
 
-Windsurf's Cascade can create multi-step flows with sql-mcp:
+Windsurf's Cascade can create multi-step flows with sql-lens-mcp:
 
 **Example Flow**:
 ```
@@ -277,7 +277,7 @@ Cascade will automatically chain these operations.
 
 ### Supercomplete with Database Context
 
-Use sql-mcp to provide database schema context for Windsurf's autocomplete:
+Use sql-lens-mcp to provide database schema context for Windsurf's autocomplete:
 
 ```
 Get the schema of the users table, then help me write a TypeScript function to query it
@@ -343,17 +343,17 @@ Read schema.sql from the migrations folder, then apply it to my test database
   "windsurf.mcpServers": {
     "sql-dev": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "development"
+        "SQL_LENS_MCP_ENV": "development"
       }
     },
     "sql-prod-readonly": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_ENV": "production",
-        "SQL_MCP_READ_ONLY": "true"
+        "SQL_LENS_MCP_ENV": "production",
+        "SQL_LENS_MCP_READ_ONLY": "true"
       }
     }
   }
@@ -365,15 +365,15 @@ Read schema.sql from the migrations folder, then apply it to my test database
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "node",
       "args": [
-        "/path/to/sql-mcp/dist/index.js",
+        "/path/to/sql-lens-mcp/dist/index.js",
         "--stdio",
         "--debug"
       ],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
         "NODE_ENV": "development"
       }
     }
@@ -386,9 +386,9 @@ Read schema.sql from the migrations folder, then apply it to my test database
 ```json
 {
   "windsurf.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -424,7 +424,7 @@ Read schema.sql from the migrations folder, then apply it to my test database
 - **Command Palette**: `Cmd+Shift+P` / `Ctrl+Shift+P`
 - **Terminal**: `Ctrl+\``
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method
 Automatically uses latest version. Clear cache:
@@ -435,7 +435,7 @@ Then restart Windsurf.
 
 ### Local Development
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -445,7 +445,7 @@ Then restart Windsurf.
 ## Uninstalling
 
 1. **Open settings.json** in Windsurf
-2. **Remove sql-mcp entry** from `windsurf.mcpServers`
+2. **Remove sql-lens-mcp entry** from `windsurf.mcpServers`
 3. **Save and restart Windsurf**
 4. **Clear cache** (optional):
    ```bash
@@ -456,15 +456,15 @@ Then restart Windsurf.
 
 - **Windsurf Output Panel**: View → Output → "Windsurf MCP"
 - **Developer Tools**: Help → Toggle Developer Tools
-- **sql-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
+- **sql-lens-mcp Docs**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **Windsurf Docs**: [codeium.com/windsurf/docs](https://codeium.com/windsurf/docs)
-- **GitHub Issues**: [Report issues](https://github.com/varkart/mcp-sql-explorer/issues)
+- **GitHub Issues**: [Report issues](https://github.com/varkart/sql-lens-mcp/issues)
 
 ## Getting Help
 
-- **Documentation**: [sql-mcp README](../../README.md)
+- **Documentation**: [sql-lens-mcp README](../../README.md)
 - **Examples**: [Workflow examples](../../examples/)
-- **Community**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **Community**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 - **Windsurf Discord**: [Join here](https://discord.gg/codeium)
 
 ## Next Steps

@@ -1,6 +1,6 @@
-# Contributing to mcp-sql-explorer
+# Contributing to sql-lens-mcp
 
-Thank you for your interest in contributing to mcp-sql-explorer! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to sql-lens-mcp! This document provides guidelines and instructions for contributing.
 
 ## Quick Links
 
@@ -30,13 +30,13 @@ This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md) that all contrib
 
 2. **Clone your fork**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/sql-mcp.git
-   cd sql-mcp
+   git clone https://github.com/YOUR_USERNAME/sql-lens-mcp.git
+   cd sql-lens-mcp
    ```
 
 3. **Add upstream remote**:
    ```bash
-   git remote add upstream https://github.com/varkart/mcp-sql-explorer.git
+   git remote add upstream https://github.com/varkart/sql-lens-mcp.git
    ```
 
 4. **Install dependencies**:
@@ -60,7 +60,7 @@ This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md) that all contrib
 
 Create a test configuration:
 ```bash
-cp examples/configs/mcp-sql-explorer.config.example.json mcp-sql-explorer.config.json
+cp examples/configs/sql-lens-mcp.config.example.json sql-lens-mcp.config.json
 ```
 
 ### Running Locally
@@ -339,10 +339,10 @@ We welcome:
 npm start -- --debug
 
 # Debug specific modules
-DEBUG=mcp-sql-explorer:* npm start
+DEBUG=sql-lens-mcp:* npm start
 
 # Debug in VS Code
-# Use the "Debug mcp-sql-explorer" launch configuration
+# Use the "Debug sql-lens-mcp" launch configuration
 ```
 
 ### Adding a New Database Adapter
@@ -392,8 +392,8 @@ Contributors are recognized in:
 ## Questions?
 
 If you have any questions about contributing, feel free to:
-- Open a [Discussion](https://github.com/varkart/mcp-sql-explorer/discussions)
+- Open a [Discussion](https://github.com/varkart/sql-lens-mcp/discussions)
 - Ask in an existing issue
 - Reach out to maintainers
 
-Thank you for contributing to mcp-sql-explorer! 🚀
+Thank you for contributing to sql-lens-mcp! 🚀

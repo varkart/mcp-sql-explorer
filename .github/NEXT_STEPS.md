@@ -33,7 +33,7 @@ git push origin dev
 
 **Option A: Use the Quick Checklist (Recommended)**
 1. Open [.github/SETUP_CHECKLIST.md](.github/SETUP_CHECKLIST.md)
-2. Go to https://github.com/varkart/mcp-sql-explorer/settings
+2. Go to https://github.com/varkart/sql-lens-mcp/settings
 3. Follow each checkbox in order (15-20 minutes)
 
 **Option B: Use the Detailed Guide**
@@ -99,13 +99,13 @@ gh release create v1.0.0 \
 # Wait ~5 minutes for npm to propagate
 
 # Install from npm
-npm install -g mcp-sql-explorer
+npm install -g sql-lens-mcp
 
 # Verify it works
-mcp-sql-explorer --version
+sql-lens-mcp --version
 
 # Test basic functionality
-npx mcp-sql-explorer --help
+npx sql-lens-mcp --help
 ```
 
 ## 📢 Marketing & Community (Week 1)
@@ -118,7 +118,7 @@ npx mcp-sql-explorer --help
 - [ ] Share on your GitHub profile
 
 **Social Media:**
-- [ ] Twitter/X: "Just launched mcp-sql-explorer 🚀..."
+- [ ] Twitter/X: "Just launched sql-lens-mcp 🚀..."
 - [ ] Reddit: r/programming, r/javascript, r/node
 - [ ] Hacker News: Show HN
 - [ ] Dev.to: Write launch article
@@ -130,13 +130,13 @@ npx mcp-sql-explorer --help
 
 **Template Announcement:**
 ```markdown
-🚀 Launched mcp-sql-explorer v1.0.0
+🚀 Launched sql-lens-mcp v1.0.0
 
 Talk to your databases in plain English. Connect Claude, ChatGPT, or any
 AI assistant to PostgreSQL, MySQL, SQLite, and more.
 
-🔗 https://github.com/varkart/mcp-sql-explorer
-📦 npm install -g mcp-sql-explorer
+🔗 https://github.com/varkart/sql-lens-mcp
+📦 npm install -g sql-lens-mcp
 
 Features:
 ✅ 6 database types supported

@@ -4,7 +4,7 @@ This guide walks you through configuring your GitHub repository for production o
 
 ## 🔗 Quick Access
 
-**Repository URL:** https://github.com/varkart/mcp-sql-explorer/settings
+**Repository URL:** https://github.com/varkart/sql-lens-mcp/settings
 
 ## 1. Branch Protection Rules
 
@@ -267,7 +267,7 @@ Description:
 Production-grade MCP server for multi-database SQL management with natural language querying
 
 Website:
-https://www.npmjs.com/package/mcp-sql-explorer
+https://www.npmjs.com/package/sql-lens-mcp
 
 ✅ Include this repository in the GitHub Stars program
 ```
@@ -365,4 +365,4 @@ If you encounter issues:
 ---
 
 **Last Updated:** 2024-03-28
-**Repository:** sql-mcp
+**Repository:** sql-lens-mcp

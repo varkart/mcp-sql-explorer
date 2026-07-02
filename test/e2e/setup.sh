@@ -11,17 +11,17 @@ sleep 5
 
 # PostgreSQL
 echo "📊 Seeding PostgreSQL..."
-docker exec -i sql-mcp-postgres psql -U testuser -d testdb < seed-databases.sql
+docker exec -i sql-lens-mcp-postgres psql -U testuser -d testdb < seed-databases.sql
 echo "✅ PostgreSQL seeded"
 
 # MySQL
 echo "📊 Seeding MySQL..."
-docker exec -i sql-mcp-mysql mysql -u testuser -ptestpass testdb < seed-databases.sql
+docker exec -i sql-lens-mcp-mysql mysql -u testuser -ptestpass testdb < seed-databases.sql
 echo "✅ MySQL seeded"
 
 # MariaDB
 echo "📊 Seeding MariaDB..."
-docker exec -i sql-mcp-mariadb mariadb -u testuser -ptestpass testdb < seed-databases.sql
+docker exec -i sql-lens-mcp-mariadb mariadb -u testuser -ptestpass testdb < seed-databases.sql
 echo "✅ MariaDB seeded"
 
 # SQL Server (requires different syntax)
@@ -29,7 +29,7 @@ echo "📊 Seeding SQL Server..."
 # Wait for MSSQL to fully start (it's slower)
 echo "⏳ Waiting for SQL Server to be ready..."
 for i in {1..30}; do
-    if docker exec sql-mcp-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "TestPass123!" -Q "SELECT 1" > /dev/null 2>&1; then
+    if docker exec sql-lens-mcp-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "TestPass123!" -Q "SELECT 1" > /dev/null 2>&1; then
         break
     fi
     echo -n "."
@@ -37,7 +37,7 @@ for i in {1..30}; do
 done
 echo ""
 
-docker exec -i sql-mcp-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "TestPass123!" -d master < seed-mssql.sql
+docker exec -i sql-lens-mcp-mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "TestPass123!" -d master < seed-mssql.sql
 echo "✅ SQL Server seeded"
 
 echo ""

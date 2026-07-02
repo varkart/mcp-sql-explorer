@@ -1,6 +1,6 @@
 # Documentation
 
-Complete documentation for sql-mcp.
+Complete documentation for sql-lens-mcp.
 
 ## User Documentation
 
@@ -59,7 +59,7 @@ docs/
 
 ## External Resources
 
-- [npm Package](https://www.npmjs.com/package/sql-mcp)
-- [GitHub Repository](https://github.com/varkart/mcp-sql-explorer)
+- [npm Package](https://www.npmjs.com/package/sql-lens-mcp)
+- [GitHub Repository](https://github.com/varkart/sql-lens-mcp)
 - [Model Context Protocol](https://modelcontextprotocol.io)
-- [Issue Tracker](https://github.com/varkart/mcp-sql-explorer/issues)
+- [Issue Tracker](https://github.com/varkart/sql-lens-mcp/issues)

@@ -1,6 +1,6 @@
 # Claude Code (VS Code) Setup Guide
 
-Complete setup instructions for using sql-mcp with Claude Code in Visual Studio Code.
+Complete setup instructions for using sql-lens-mcp with Claude Code in Visual Studio Code.
 
 ## Prerequisites
 
@@ -26,9 +26,9 @@ Claude Code uses the same configuration format as Claude Desktop and supports au
    ```json
    {
      "claude.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -40,11 +40,11 @@ Claude Code uses the same configuration format as Claude Desktop and supports au
 
 6. **Verify connection**:
    - Type `/mcp` in Claude Code chat panel
-   - sql-mcp should appear in the list
+   - sql-lens-mcp should appear in the list
 
 ### Method 2: Auto-Discovery from Claude Desktop
 
-If you already have sql-mcp configured in Claude Desktop, Claude Code can automatically detect it:
+If you already have sql-lens-mcp configured in Claude Desktop, Claude Code can automatically detect it:
 
 1. **Enable MCP discovery** in VS Code settings.json:
    ```json
@@ -55,7 +55,7 @@ If you already have sql-mcp configured in Claude Desktop, Claude Code can automa
 
 2. **Reload VS Code Window**
 
-3. **Claude Code will detect** sql-mcp from your Claude Desktop config
+3. **Claude Code will detect** sql-lens-mcp from your Claude Desktop config
 
 ### Method 3: Workspace-Level Configuration
 
@@ -67,9 +67,9 @@ For project-specific database connections:
    ```json
    {
      "claude.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio"]
+         "args": ["-y", "sql-lens-mcp", "--stdio"]
        }
      }
    }
@@ -81,11 +81,11 @@ This configuration only applies to this workspace.
 
 ### Method 4: Local Development
 
-If you're developing sql-mcp locally:
+If you're developing sql-lens-mcp locally:
 
 1. **Build the project**:
    ```bash
-   cd /path/to/sql-mcp
+   cd /path/to/sql-lens-mcp
    npm install
    npm run build
    ```
@@ -94,10 +94,10 @@ If you're developing sql-mcp locally:
    ```json
    {
      "claude.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "node",
          "args": [
-           "/absolute/path/to/sql-mcp/dist/index.js",
+           "/absolute/path/to/sql-lens-mcp/dist/index.js",
            "--stdio"
          ]
        }
@@ -144,9 +144,9 @@ File: `~/.config/Code/User/settings.json` (Linux)
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -159,9 +159,9 @@ File: `.vscode/settings.json` in project root
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp-local": {
+    "sql-lens-mcp-local": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     }
   }
 }
@@ -172,9 +172,9 @@ File: `.vscode/settings.json` in project root
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"]
+      "args": ["-y", "sql-lens-mcp", "--stdio"]
     },
     "filesystem": {
       "command": "npx",
@@ -193,12 +193,12 @@ File: `.vscode/settings.json` in project root
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "npx",
-      "args": ["-y", "sql-mcp", "--stdio"],
+      "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_MCP_LOG_LEVEL": "debug",
-        "SQL_MCP_MAX_ROWS": "1000"
+        "SQL_LENS_MCP_LOG_LEVEL": "debug",
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -213,7 +213,7 @@ File: `.vscode/settings.json` in project root
    ```
    /mcp
    ```
-   - sql-mcp should appear with ✅ status
+   - sql-lens-mcp should appear with ✅ status
 
 3. **Test database connection**:
    ```
@@ -243,7 +243,7 @@ Claude Code supports MCP Apps - interactive UI components in chat:
 
 ### What are MCP Apps?
 
-MCP Apps allow sql-mcp to return rich UI instead of plain text:
+MCP Apps allow sql-lens-mcp to return rich UI instead of plain text:
 - Interactive forms for database connections
 - Data visualization widgets
 - Multi-step workflows
@@ -286,7 +286,7 @@ npm --version
 **Solution**:
 ```bash
 # macOS/Linux - fix permissions
-chmod +x /path/to/sql-mcp/dist/index.js
+chmod +x /path/to/sql-lens-mcp/dist/index.js
 
 # Check Node.js is in PATH
 which node
@@ -342,9 +342,9 @@ VS Code requires workspace trust for MCP servers defined in `.vscode/settings.js
 ```json
 {
   "claude.mcpServers": {
-    "sql-mcp": {
+    "sql-lens-mcp": {
       "command": "/usr/local/bin/node",
-      "args": ["/path/to/sql-mcp/dist/index.js", "--stdio"]
+      "args": ["/path/to/sql-lens-mcp/dist/index.js", "--stdio"]
     }
   }
 }
@@ -364,9 +364,9 @@ Enable debug output in VS Code:
    ```json
    {
      "claude.mcpServers": {
-       "sql-mcp": {
+       "sql-lens-mcp": {
          "command": "npx",
-         "args": ["-y", "sql-mcp", "--stdio", "--debug"]
+         "args": ["-y", "sql-lens-mcp", "--stdio", "--debug"]
        }
      }
    }
@@ -425,7 +425,7 @@ Compare the user counts between test-db and local-pg
 - **MCP Management**: Type `/mcp` in chat
 - **Reload Window**: `Cmd/Ctrl + R` (when focused on window)
 
-## Updating sql-mcp
+## Updating sql-lens-mcp
 
 ### NPX Method (Automatic)
 NPX automatically uses the latest version. To force update:
@@ -436,7 +436,7 @@ npx clear-npx-cache
 
 ### Local Development Method
 ```bash
-cd /path/to/sql-mcp
+cd /path/to/sql-lens-mcp
 git pull
 npm install
 npm run build
@@ -448,12 +448,12 @@ npm run build
 ### Remove from User Settings
 
 1. Open settings.json
-2. Remove the sql-mcp entry
+2. Remove the sql-lens-mcp entry
 3. Reload window
 
 ### Remove from Workspace
 
-1. Delete `.vscode/settings.json` or remove sql-mcp entry
+1. Delete `.vscode/settings.json` or remove sql-lens-mcp entry
 2. Reload window
 
 ### Clean NPX Cache
@@ -476,8 +476,8 @@ npx clear-npx-cache
 
 - **Troubleshooting Guide**: [TROUBLESHOOTING.md](../../TROUBLESHOOTING.md)
 - **Claude Code Docs**: [code.claude.com/docs](https://code.claude.com/docs)
-- **Issues**: [GitHub Issues](https://github.com/varkart/mcp-sql-explorer/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/varkart/mcp-sql-explorer/discussions)
+- **Issues**: [GitHub Issues](https://github.com/varkart/sql-lens-mcp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/varkart/sql-lens-mcp/discussions)
 
 ## Next Steps
 

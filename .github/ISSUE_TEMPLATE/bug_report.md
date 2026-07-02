@@ -31,7 +31,7 @@ assignees: ''
 - OS: <!-- e.g., macOS 14.0, Ubuntu 22.04, Windows 11 -->
 - Node.js Version: <!-- output of `node --version` -->
 - npm Version: <!-- output of `npm --version` -->
-- sql-mcp Version: <!-- version number or commit hash -->
+- sql-lens-mcp Version: <!-- version number or commit hash -->
 - Docker Version: <!-- if running integration tests -->
 
 **Database Information** (if applicable):
