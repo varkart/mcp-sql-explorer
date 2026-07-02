@@ -38,7 +38,7 @@ export const registerNlQueryTool: ToolRegistration = (server, { manager }) => {
         const connection = manager.getConnection(args.connectionId);
         const readOnly = connection?.config.readOnly ?? true;
 
-        validateQuery(sql, readOnly);
+        validateQuery(sql, readOnly, connection?.config.type);
 
         const result = await adapter.execute(sql, [], buildExecuteOptions(
           { queryTimeout: 30000, maxRows: 1000, readOnly },
