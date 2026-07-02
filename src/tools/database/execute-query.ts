@@ -30,8 +30,9 @@ export const registerExecuteQueryTool: ToolRegistration = (server, { manager, qu
 
         const connection = manager.getConnection(args.connectionId);
         const readOnly = connection?.config.readOnly ?? true;
+        const dialect = connection?.config.type;
 
-        validateQuery(args.sql, readOnly);
+        validateQuery(args.sql, readOnly, dialect);
 
         if (!readOnly && requiresConfirmation(args.sql) && supportsElicitation(server)) {
           const decision = await confirmDestructiveQuery(server, args.sql);
@@ -52,7 +53,7 @@ export const registerExecuteQueryTool: ToolRegistration = (server, { manager, qu
 
         const result = await adapter.execute(args.sql, [], options);
 
-        const statementType = classifyStatement(args.sql);
+        const statementType = classifyStatement(args.sql, dialect);
         queryHistory.unshift({
           connectionId: args.connectionId,
           sql: args.sql,
