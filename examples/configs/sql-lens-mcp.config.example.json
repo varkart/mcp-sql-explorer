@@ -1,8 +1,8 @@
 {
   "defaults": {
     "readOnly": true,
-    "queryTimeout": 30000,
-    "maxRows": 1000
+    "queryTimeout": 25000,
+    "maxRows": 25
   },
   "connections": {
     "local-postgres": {

@@ -2,10 +2,11 @@ import { z } from 'zod';
 import type { ToolRegistration } from '../types.js';
 import { generateSql } from '../../sampling/nl-to-sql.js';
 import { validateQuery } from '../../security/query-validator.js';
-import { buildExecuteOptions } from '../../security/sandbox.js';
+import { buildExecuteOptions, resolveExecuteDefaults } from '../../security/sandbox.js';
 import { renderTable } from '../../visualization/ascii-table.js';
 
-export const registerNlQueryTool: ToolRegistration = (server, { manager }) => {
+export const registerNlQueryTool: ToolRegistration = (server, context) => {
+  const { manager } = context;
   server.registerTool(
     'nl_query',
     {
@@ -41,7 +42,7 @@ export const registerNlQueryTool: ToolRegistration = (server, { manager }) => {
         validateQuery(sql, readOnly, connection?.config.type);
 
         const result = await adapter.execute(sql, [], buildExecuteOptions(
-          { queryTimeout: 30000, maxRows: 1000, readOnly },
+          resolveExecuteDefaults(context.config, readOnly),
           {}
         ));
 

@@ -1,14 +1,15 @@
 import { z } from 'zod';
 import type { ToolRegistration } from '../types.js';
 import { validateQuery, classifyStatement } from '../../security/query-validator.js';
-import { buildExecuteOptions } from '../../security/sandbox.js';
+import { buildExecuteOptions, resolveExecuteDefaults } from '../../security/sandbox.js';
 import { renderTable } from '../../visualization/ascii-table.js';
 import { supportsElicitation } from '../../elicitation/capabilities.js';
 import { requiresConfirmation, confirmDestructiveQuery } from '../../elicitation/query-confirmation.js';
 
 const MAX_HISTORY = 50;
 
-export const registerExecuteQueryTool: ToolRegistration = (server, { manager, queryHistory, lastResults }) => {
+export const registerExecuteQueryTool: ToolRegistration = (server, context) => {
+  const { manager, queryHistory, lastResults } = context;
   server.registerTool(
     'execute_query',
     {
@@ -48,7 +49,7 @@ export const registerExecuteQueryTool: ToolRegistration = (server, { manager, qu
         }
 
         const options = buildExecuteOptions(
-          { queryTimeout: 30000, maxRows: 1000, readOnly },
+          resolveExecuteDefaults(context.config, readOnly),
           { timeout: args.timeout, maxRows: args.maxRows, offset: args.offset }
         );
 

@@ -1,7 +1,11 @@
 import type { ExecuteOptions } from '../utils/types.js';
 
-export const MAX_QUERY_TIMEOUT = 300000;
-export const MAX_ROW_LIMIT = 100000;
+// Tuned for AI assistants: large inline results burn the model's context
+// window; pagination and the query-result:// export resources cover bulk data.
+export const MAX_QUERY_TIMEOUT = 60000;
+export const MAX_ROW_LIMIT = 1000;
+export const DEFAULT_QUERY_TIMEOUT = 25000;
+export const DEFAULT_MAX_ROWS = 25;
 
 export function clampOptions(options: ExecuteOptions): ExecuteOptions {
   const clamped: ExecuteOptions = { ...options };
@@ -19,6 +23,23 @@ export function clampOptions(options: ExecuteOptions): ExecuteOptions {
   }
 
   return clamped;
+}
+
+export interface ExecuteDefaults {
+  queryTimeout: number;
+  maxRows: number;
+  readOnly: boolean;
+}
+
+export function resolveExecuteDefaults(
+  config: { defaults: Partial<ExecuteDefaults> } | undefined,
+  readOnly: boolean
+): ExecuteDefaults {
+  return {
+    queryTimeout: config?.defaults.queryTimeout ?? DEFAULT_QUERY_TIMEOUT,
+    maxRows: config?.defaults.maxRows ?? DEFAULT_MAX_ROWS,
+    readOnly,
+  };
 }
 
 export function buildExecuteOptions(
