@@ -113,7 +113,7 @@ export interface DatabaseAdapter {
   getRelationships(schema?: string): Promise<TableRelationship[]>;
 }
 
-export const DEFAULT_MAX_ROWS = 100000;
+export const DEFAULT_MAX_ROWS = 1000;
 
 /**
  * Shared fallback for applying the offset/maxRows window to a buffered row

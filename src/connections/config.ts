@@ -39,8 +39,8 @@ export async function loadConfig(configPath?: string): Promise<ServerConfig | nu
 function processConfig(config: any): ServerConfig {
   const defaults = config.defaults || {
     readOnly: true,
-    queryTimeout: 30000,
-    maxRows: 1000,
+    queryTimeout: 25000,
+    maxRows: 25,
   };
 
   const connections: Record<string, any> = {};

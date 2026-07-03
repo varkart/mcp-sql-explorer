@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import type { ToolRegistration } from '../types.js';
 import { validateQuery } from '../../security/query-validator.js';
-import { buildExecuteOptions } from '../../security/sandbox.js';
+import { buildExecuteOptions, resolveExecuteDefaults, MAX_ROW_LIMIT } from '../../security/sandbox.js';
 import { renderTable } from '../../visualization/ascii-table.js';
 
-export const registerExplainQueryTool: ToolRegistration = (server, { manager }) => {
+export const registerExplainQueryTool: ToolRegistration = (server, context) => {
+  const { manager } = context;
   server.registerTool(
     'explain_query',
     {
@@ -30,7 +31,7 @@ export const registerExplainQueryTool: ToolRegistration = (server, { manager }) 
         validateQuery(args.sql, readOnly, dialect);
 
         const options = buildExecuteOptions(
-          { queryTimeout: 30000, maxRows: 1000, readOnly },
+          { ...resolveExecuteDefaults(context.config, readOnly), maxRows: MAX_ROW_LIMIT },
           {}
         );
 

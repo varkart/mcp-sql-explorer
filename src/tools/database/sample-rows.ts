@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import type { ToolRegistration } from '../types.js';
 import { assertValidIdentifier } from '../../security/identifiers.js';
-import { buildExecuteOptions } from '../../security/sandbox.js';
+import { buildExecuteOptions, resolveExecuteDefaults } from '../../security/sandbox.js';
 import { clampSampleLimit, MAX_SAMPLE_ROWS } from '../../connections/adapters/base.js';
 import { renderTable } from '../../visualization/ascii-table.js';
 
-export const registerSampleRowsTool: ToolRegistration = (server, { manager }) => {
+export const registerSampleRowsTool: ToolRegistration = (server, context) => {
+  const { manager } = context;
   server.registerTool(
     'sample_rows',
     {
@@ -37,7 +38,7 @@ export const registerSampleRowsTool: ToolRegistration = (server, { manager }) =>
         const sql = adapter.buildSampleQuery(args.table, args.schema, limit);
 
         const options = buildExecuteOptions(
-          { queryTimeout: 30000, maxRows: limit, readOnly },
+          { ...resolveExecuteDefaults(context.config, readOnly), maxRows: limit },
           {}
         );
 
