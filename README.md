@@ -460,8 +460,8 @@ The server looks for configuration in this order:
 {
   "defaults": {
     "readOnly": true,
-    "queryTimeout": 30000,
-    "maxRows": 1000
+    "queryTimeout": 25000,
+    "maxRows": 25
   },
   "connections": {
     "db-id": {
@@ -483,6 +483,8 @@ The server looks for configuration in this order:
 ```
 
 Environment variables in passwords are supported using `${VAR_NAME}` syntax.
+
+The `defaults` block is honored for every connection unless overridden per connection or per query: `queryTimeout` is in milliseconds (default 25000, maximum 60000) and `maxRows` caps the rows returned per page (default 25, maximum 1000).
 
 ## MCP Tools
 
@@ -597,8 +599,8 @@ Defense in depth, outermost layer first:
 - **Dangerous patterns blocked** (LOAD_FILE, xp_cmdshell, INTO OUTFILE, etc.) as a second layer
 - **Destructive-statement confirmation** - on clients that support MCP elicitation, DROP/ALTER/DELETE-without-WHERE require explicit user approval before executing
 - **Strict identifier validation** - table and schema names passed to tools are validated against a strict pattern and quoted per dialect
-- Query timeout limits (max 5 minutes)
-- Row limits (max 100,000 rows)
+- **Query timeouts** - default 25 seconds, maximum 60 seconds
+- **Row limits** - default 25 rows per page, maximum 1,000; larger results are paginated
 
 ## Database Support
 

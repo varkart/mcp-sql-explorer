@@ -358,7 +358,7 @@ Connect to both my staging and production databases, then compare the schema of 
       "command": "npx",
       "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_LENS_MCP_MAX_ROWS": "5000",
+        "SQL_LENS_MCP_MAX_ROWS": "1000",
         "SQL_LENS_MCP_QUERY_TIMEOUT": "30000"
       }
     }

@@ -245,7 +245,7 @@ Focus on database access with visualization:
       "command": "npx",
       "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_LENS_MCP_MAX_ROWS": "10000"
+        "SQL_LENS_MCP_MAX_ROWS": "1000"
       }
     }
   }
@@ -352,8 +352,8 @@ Insert 3 sample users into the test database, then show me all users
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SQL_LENS_MCP_LOG_LEVEL` | `info` | Logging level: `debug`, `info`, `warn`, `error` |
-| `SQL_LENS_MCP_MAX_ROWS` | `1000` | Maximum rows returned per query |
-| `SQL_LENS_MCP_QUERY_TIMEOUT` | `30000` | Query timeout in milliseconds |
+| `SQL_LENS_MCP_MAX_ROWS` | `25` | Rows returned per page (maximum 1000) |
+| `SQL_LENS_MCP_QUERY_TIMEOUT` | `25000` | Query timeout in milliseconds (maximum 60000) |
 | `SQL_LENS_MCP_ENV` | - | Environment identifier (dev, staging, prod) |
 | `SQL_LENS_MCP_READ_ONLY` | `false` | Force read-only mode if `true` |
 
