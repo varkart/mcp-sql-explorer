@@ -446,7 +446,7 @@ Export the results to a CSV file in the project root
       "command": "npx",
       "args": ["-y", "sql-lens-mcp", "--stdio"],
       "env": {
-        "SQL_LENS_MCP_MAX_ROWS": "5000",
+        "SQL_LENS_MCP_MAX_ROWS": "1000",
         "SQL_LENS_MCP_QUERY_TIMEOUT": "60000"
       }
     }
