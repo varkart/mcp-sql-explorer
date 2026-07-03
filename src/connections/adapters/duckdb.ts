@@ -1,7 +1,8 @@
 import { DuckDBInstance, DuckDBConnection, ResultReturnType } from '@duckdb/node-api';
 import type { DuckDBValue } from '@duckdb/node-api';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { logger } from '../../utils/logger.js';
 
@@ -245,6 +246,63 @@ export class DuckDBAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'duckdb',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `"${name.replace(/"/g, '""')}"`;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT * FROM ${target} LIMIT ${clampSampleLimit(limit)}`;
+  }
+
+  async explain(sql: string, options: ExecuteOptions = {}): Promise<QueryResult> {
+    return this.execute(`EXPLAIN ${sql}`, [], options);
+  }
+
+  async getRelationships(schema?: string): Promise<TableRelationship[]> {
+    if (!this.connection) {
+      throw new ConnectionError('Not connected to DuckDB');
+    }
+
+    const query = `
+      SELECT
+        schema_name,
+        table_name,
+        constraint_index,
+        constraint_column_names,
+        referenced_table,
+        referenced_column_names
+      FROM duckdb_constraints()
+      WHERE constraint_type = 'FOREIGN KEY'
+        AND schema_name = COALESCE(?, 'main')
+      ORDER BY schema_name, table_name, constraint_index
+    `;
+
+    const reader = await this.connection.runAndReadAll(query, [schema ?? null]);
+    const rows = reader.getRowObjectsJson() as {
+      schema_name: string;
+      table_name: string;
+      constraint_index: number | string;
+      constraint_column_names: string[];
+      referenced_table: string | null;
+      referenced_column_names: string[];
+    }[];
+
+    return rows
+      .filter(row => row.referenced_table !== null)
+      .map(row => ({
+        constraintName: `${row.table_name}_fk_${row.constraint_index}`,
+        fromSchema: row.schema_name,
+        fromTable: row.table_name,
+        fromColumns: row.constraint_column_names,
+        toSchema: row.schema_name,
+        toTable: row.referenced_table as string,
+        toColumns: row.referenced_column_names,
+      }));
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {

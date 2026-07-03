@@ -93,6 +93,16 @@ export interface ForeignKey {
   referencesColumn: string;
 }
 
+export interface TableRelationship {
+  constraintName: string;
+  fromSchema?: string;
+  fromTable: string;
+  fromColumns: string[];
+  toSchema?: string;
+  toTable: string;
+  toColumns: string[];
+}
+
 export interface QueryHistoryEntry {
   connectionId: string;
   sql: string;
