@@ -725,7 +725,12 @@ Environment variables in passwords are supported using `${VAR_NAME}` syntax.
 ### Query Execution
 - `execute_query` - Execute SQL with validation and formatting
 - `nl_query` - Natural language to SQL with optional auto-execute
+
+### Schema Intelligence
 - `describe_schema` - Inspect database schema
+- `sample_rows` - Fetch representative rows from a table (default 10, max 100)
+- `explain_query` - Show the query plan for a statement without executing it (Oracle requires access to `PLAN_TABLE`)
+- `describe_relationships` - Foreign-key graph between tables for join planning
 
 ## MCP Resources
 
