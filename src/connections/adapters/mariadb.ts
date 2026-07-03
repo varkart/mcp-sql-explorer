@@ -1,7 +1,8 @@
 import * as mariadb from 'mariadb';
 import { applyRowWindow } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit, groupRelationshipRows } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { logger } from '../../utils/logger.js';
 
@@ -202,6 +203,53 @@ export class MariaDBAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'mariadb',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `\`${name.replace(/`/g, '``')}\``;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT * FROM ${target} LIMIT ${clampSampleLimit(limit)}`;
+  }
+
+  async explain(sql: string, options: ExecuteOptions = {}): Promise<QueryResult> {
+    return this.execute(`EXPLAIN ${sql}`, [], options);
+  }
+
+  async getRelationships(schema?: string): Promise<TableRelationship[]> {
+    if (!this.pool) {
+      throw new ConnectionError('Not connected to MariaDB');
+    }
+
+    const query = `
+      SELECT
+        kcu.CONSTRAINT_NAME AS constraint_name,
+        kcu.TABLE_SCHEMA AS from_schema,
+        kcu.TABLE_NAME AS from_table,
+        kcu.COLUMN_NAME AS from_column,
+        kcu.REFERENCED_TABLE_SCHEMA AS to_schema,
+        kcu.REFERENCED_TABLE_NAME AS to_table,
+        kcu.REFERENCED_COLUMN_NAME AS to_column
+      FROM information_schema.KEY_COLUMN_USAGE kcu
+      WHERE kcu.REFERENCED_TABLE_NAME IS NOT NULL
+        AND kcu.TABLE_SCHEMA = COALESCE(?, DATABASE())
+      ORDER BY kcu.TABLE_SCHEMA, kcu.TABLE_NAME, kcu.CONSTRAINT_NAME, kcu.ORDINAL_POSITION
+    `;
+
+    const rows = await this.pool.query(query, [schema ?? null]) as Record<string, unknown>[];
+    return groupRelationshipRows(rows.map(row => ({
+      constraintName: String(row.constraint_name),
+      fromSchema: row.from_schema as string,
+      fromTable: String(row.from_table),
+      fromColumn: String(row.from_column),
+      toSchema: row.to_schema as string,
+      toTable: String(row.to_table),
+      toColumn: String(row.to_column),
+    })));
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {

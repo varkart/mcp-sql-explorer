@@ -1,7 +1,8 @@
 import mssql from 'mssql';
 import { applyRowWindow } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit, groupRelationshipRows } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { assertReadOnly } from '../../security/query-validator.js';
 import { logger } from '../../utils/logger.js';
@@ -14,6 +15,7 @@ export class MSSQLAdapter implements DatabaseAdapter {
   // enforced by a per-statement guard in execute().
   readonly readOnlyEnforcement: ReadOnlyEnforcement = 'guard';
   private pool: mssql.ConnectionPool | null = null;
+  private poolConfig: mssql.config | null = null;
   private readOnlyMode = false;
 
   async connect(config: ConnectionConfig): Promise<void> {
@@ -40,6 +42,7 @@ export class MSSQLAdapter implements DatabaseAdapter {
       };
 
       this.pool = new mssql.ConnectionPool(poolConfig);
+      this.poolConfig = poolConfig;
       await this.pool.connect();
 
       logger.info('MSSQL connection established', { host: config.host, database: config.database });
@@ -54,6 +57,7 @@ export class MSSQLAdapter implements DatabaseAdapter {
     if (this.pool) {
       await this.pool.close();
       this.pool = null;
+      this.poolConfig = null;
       logger.info('MSSQL connection closed');
     }
   }
@@ -213,6 +217,107 @@ export class MSSQLAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'mssql',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `[${name.replace(/]/g, ']]')}]`;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT TOP (${clampSampleLimit(limit)}) * FROM ${target}`;
+  }
+
+  async explain(sql: string): Promise<QueryResult> {
+    if (!this.pool || !this.poolConfig) {
+      throw new ConnectionError('Not connected to MSSQL');
+    }
+
+    // SET SHOWPLAN_ALL applies per session and must be the only statement in
+    // its batch, so a dedicated single-connection pool guarantees all three
+    // batches run on the same session. With SHOWPLAN_ALL ON the statement is
+    // compiled and its plan returned without being executed.
+    const planPool = new mssql.ConnectionPool({
+      ...this.poolConfig,
+      pool: { max: 1, min: 0, idleTimeoutMillis: 5000 },
+    });
+
+    const startTime = Date.now();
+
+    try {
+      await planPool.connect();
+      await planPool.request().batch('SET SHOWPLAN_ALL ON');
+
+      const result = await planPool.request().batch(sql);
+      const executionTimeMs = Date.now() - startTime;
+
+      const columns: ColumnInfo[] = result.recordset?.columns
+        ? Object.entries(result.recordset.columns).map(([name, col]) => ({
+            name,
+            type: (col as any).type?.name || 'unknown',
+            nullable: (col as any).nullable,
+          }))
+        : [];
+
+      const rows = (result.recordset || []) as Record<string, unknown>[];
+
+      return {
+        columns,
+        rows,
+        rowCount: rows.length,
+        truncated: false,
+        executionTimeMs,
+        statement: sql,
+      };
+    } catch (error) {
+      const err = error as Error;
+      throw new QueryError(`MSSQL explain failed: ${err.message}`);
+    } finally {
+      await planPool.close().catch(() => undefined);
+    }
+  }
+
+  async getRelationships(schema?: string): Promise<TableRelationship[]> {
+    if (!this.pool) {
+      throw new ConnectionError('Not connected to MSSQL');
+    }
+
+    const query = `
+      SELECT
+        fk.name AS constraint_name,
+        ps.name AS from_schema,
+        pt.name AS from_table,
+        pc.name AS from_column,
+        rs.name AS to_schema,
+        rt.name AS to_table,
+        rc.name AS to_column
+      FROM sys.foreign_keys fk
+      JOIN sys.foreign_key_columns fkc ON fk.object_id = fkc.constraint_object_id
+      JOIN sys.tables pt ON fkc.parent_object_id = pt.object_id
+      JOIN sys.schemas ps ON pt.schema_id = ps.schema_id
+      JOIN sys.columns pc ON fkc.parent_object_id = pc.object_id AND fkc.parent_column_id = pc.column_id
+      JOIN sys.tables rt ON fkc.referenced_object_id = rt.object_id
+      JOIN sys.schemas rs ON rt.schema_id = rs.schema_id
+      JOIN sys.columns rc ON fkc.referenced_object_id = rc.object_id AND fkc.referenced_column_id = rc.column_id
+      WHERE @schemaName IS NULL OR ps.name = @schemaName
+      ORDER BY ps.name, pt.name, fk.name, fkc.constraint_column_id
+    `;
+
+    const result = await this.pool.request()
+      .input('schemaName', schema ?? null)
+      .query(query);
+
+    return groupRelationshipRows(result.recordset.map(row => ({
+      constraintName: row.constraint_name,
+      fromSchema: row.from_schema,
+      fromTable: row.from_table,
+      fromColumn: row.from_column,
+      toSchema: row.to_schema,
+      toTable: row.to_table,
+      toColumn: row.to_column,
+    })));
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {

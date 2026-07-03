@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3';
 import { DEFAULT_MAX_ROWS } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { logger } from '../../utils/logger.js';
 
@@ -193,6 +194,67 @@ export class SQLiteAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'sqlite',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `"${name.replace(/"/g, '""')}"`;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT * FROM ${target} LIMIT ${clampSampleLimit(limit)}`;
+  }
+
+  async explain(sql: string, options: ExecuteOptions = {}): Promise<QueryResult> {
+    return this.execute(`EXPLAIN QUERY PLAN ${sql}`, [], options);
+  }
+
+  async getRelationships(): Promise<TableRelationship[]> {
+    if (!this.db) {
+      throw new ConnectionError('Not connected to SQLite');
+    }
+
+    const tables = this.db.prepare(`
+      SELECT name
+      FROM sqlite_master
+      WHERE type = 'table'
+        AND name NOT LIKE 'sqlite_%'
+      ORDER BY name
+    `).all() as { name: string }[];
+
+    const relationships: TableRelationship[] = [];
+
+    for (const { name } of tables) {
+      const fkRows = this.db.prepare(`PRAGMA foreign_key_list(${this.quoteIdentifier(name)})`).all() as {
+        id: number;
+        seq: number;
+        table: string;
+        from: string;
+        to: string | null;
+      }[];
+
+      const grouped = new Map<number, typeof fkRows>();
+      for (const row of fkRows) {
+        const group = grouped.get(row.id) ?? [];
+        group.push(row);
+        grouped.set(row.id, group);
+      }
+
+      for (const [id, group] of grouped) {
+        group.sort((a, b) => a.seq - b.seq);
+        relationships.push({
+          constraintName: `${name}_fk_${id}`,
+          fromTable: name,
+          fromColumns: group.map(row => row.from),
+          toTable: group[0].table,
+          toColumns: group.map(row => row.to).filter((col): col is string => col !== null),
+        });
+      }
+    }
+
+    return relationships;
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {

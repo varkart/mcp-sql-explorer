@@ -41,3 +41,37 @@ export function createMockContext(): MockContext {
 export function waitFor(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export interface ToolResponse {
+  content: { type: string; text: string }[];
+}
+
+export interface ToolCapture {
+  server: McpServer;
+  call(name: string, args: Record<string, unknown>): Promise<ToolResponse>;
+}
+
+/**
+ * Create a fake server that captures registered tool handlers so tests can
+ * invoke them directly with arguments.
+ */
+export function createToolCapture(): ToolCapture {
+  const handlers = new Map<string, (args: Record<string, unknown>) => Promise<ToolResponse>>();
+
+  const server = {
+    registerTool: (name: string, _config: unknown, handler: (args: Record<string, unknown>) => Promise<ToolResponse>) => {
+      handlers.set(name, handler);
+    },
+  } as unknown as McpServer;
+
+  return {
+    server,
+    call(name: string, args: Record<string, unknown>): Promise<ToolResponse> {
+      const handler = handlers.get(name);
+      if (!handler) {
+        throw new Error(`Tool not registered: ${name}`);
+      }
+      return handler(args);
+    },
+  };
+}

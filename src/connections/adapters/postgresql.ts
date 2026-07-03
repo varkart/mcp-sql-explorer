@@ -1,7 +1,8 @@
 import pg from 'pg';
 import { applyRowWindow } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit, groupRelationshipRows } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { logger } from '../../utils/logger.js';
 
@@ -221,6 +222,60 @@ export class PostgreSQLAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'postgresql',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `"${name.replace(/"/g, '""')}"`;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT * FROM ${target} LIMIT ${clampSampleLimit(limit)}`;
+  }
+
+  async explain(sql: string, options: ExecuteOptions = {}): Promise<QueryResult> {
+    // Plain EXPLAIN only: EXPLAIN ANALYZE would execute the statement.
+    return this.execute(`EXPLAIN ${sql}`, [], options);
+  }
+
+  async getRelationships(schema?: string): Promise<TableRelationship[]> {
+    if (!this.pool) {
+      throw new ConnectionError('Not connected to PostgreSQL');
+    }
+
+    const query = `
+      SELECT
+        rc.constraint_name,
+        kcu.table_schema AS from_schema,
+        kcu.table_name AS from_table,
+        kcu.column_name AS from_column,
+        rcu.table_schema AS to_schema,
+        rcu.table_name AS to_table,
+        rcu.column_name AS to_column
+      FROM information_schema.referential_constraints rc
+      JOIN information_schema.key_column_usage kcu
+        ON kcu.constraint_schema = rc.constraint_schema
+       AND kcu.constraint_name = rc.constraint_name
+      JOIN information_schema.key_column_usage rcu
+        ON rcu.constraint_schema = rc.unique_constraint_schema
+       AND rcu.constraint_name = rc.unique_constraint_name
+       AND rcu.ordinal_position = kcu.position_in_unique_constraint
+      WHERE ($1::text IS NULL OR kcu.table_schema = $1)
+      ORDER BY kcu.table_schema, kcu.table_name, rc.constraint_name, kcu.ordinal_position
+    `;
+
+    const result = await this.pool.query(query, [schema ?? null]);
+    return groupRelationshipRows(result.rows.map(row => ({
+      constraintName: row.constraint_name,
+      fromSchema: row.from_schema,
+      fromTable: row.from_table,
+      fromColumn: row.from_column,
+      toSchema: row.to_schema,
+      toTable: row.to_table,
+      toColumn: row.to_column,
+    })));
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {

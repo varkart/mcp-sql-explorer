@@ -1,6 +1,7 @@
 import { applyRowWindow, DEFAULT_MAX_ROWS } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
-import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
+import { clampSampleLimit, groupRelationshipRows } from './base.js';
+import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey, TableRelationship } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
 import { assertReadOnly } from '../../security/query-validator.js';
 import { logger } from '../../utils/logger.js';
@@ -230,6 +231,101 @@ export class OracleAdapter implements DatabaseAdapter {
       connectionId: '',
       databaseType: 'oracle',
     };
+  }
+
+  quoteIdentifier(name: string): string {
+    return `"${name.replace(/"/g, '""')}"`;
+  }
+
+  buildSampleQuery(table: string, schema: string | undefined, limit: number): string {
+    const target = schema
+      ? `${this.quoteIdentifier(schema)}.${this.quoteIdentifier(table)}`
+      : this.quoteIdentifier(table);
+    return `SELECT * FROM ${target} FETCH FIRST ${clampSampleLimit(limit)} ROWS ONLY`;
+  }
+
+  async explain(sql: string): Promise<QueryResult> {
+    if (!this.connection) {
+      throw new ConnectionError('Not connected to Oracle');
+    }
+
+    // EXPLAIN PLAN FOR inserts plan rows into PLAN_TABLE without executing the
+    // statement. The rows are read back via DBMS_XPLAN.DISPLAY and rolled back
+    // afterwards. Requires access to PLAN_TABLE (a global temporary table
+    // available by default in modern Oracle) and the privileges needed to
+    // execute the statement being explained.
+    const statementId = `SQLLENS_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+    const startTime = Date.now();
+
+    try {
+      await this.connection.execute(`EXPLAIN PLAN SET STATEMENT_ID = '${statementId}' FOR ${sql}`);
+
+      const result = await this.connection.execute(
+        `SELECT plan_table_output FROM TABLE(DBMS_XPLAN.DISPLAY('PLAN_TABLE', :stmtId, 'TYPICAL'))`,
+        { stmtId: statementId },
+        { outFormat: this.oracledb.OUT_FORMAT_OBJECT }
+      );
+
+      const executionTimeMs = Date.now() - startTime;
+      const rows = (result.rows || []) as Record<string, unknown>[];
+
+      return {
+        columns: [{ name: 'PLAN_TABLE_OUTPUT', type: 'VARCHAR2', nullable: true }],
+        rows,
+        rowCount: rows.length,
+        truncated: false,
+        executionTimeMs,
+        statement: sql,
+      };
+    } catch (error) {
+      const err = error as Error;
+      throw new QueryError(`Oracle explain failed: ${err.message}`);
+    } finally {
+      await this.connection.rollback().catch(() => undefined);
+    }
+  }
+
+  async getRelationships(schema?: string): Promise<TableRelationship[]> {
+    if (!this.connection) {
+      throw new ConnectionError('Not connected to Oracle');
+    }
+
+    const query = `
+      SELECT
+        c.constraint_name,
+        a.owner AS from_schema,
+        a.table_name AS from_table,
+        a.column_name AS from_column,
+        c_pk.owner AS to_schema,
+        c_pk.table_name AS to_table,
+        b.column_name AS to_column
+      FROM all_constraints c
+      JOIN all_cons_columns a
+        ON c.owner = a.owner AND c.constraint_name = a.constraint_name
+      JOIN all_constraints c_pk
+        ON c.r_owner = c_pk.owner AND c.r_constraint_name = c_pk.constraint_name
+      JOIN all_cons_columns b
+        ON c_pk.owner = b.owner AND c_pk.constraint_name = b.constraint_name AND b.position = a.position
+      WHERE c.constraint_type = 'R'
+        AND a.owner = NVL(:schemaName, USER)
+      ORDER BY a.owner, a.table_name, c.constraint_name, a.position
+    `;
+
+    const result = await this.connection.execute(
+      query,
+      { schemaName: schema ?? null },
+      { outFormat: this.oracledb.OUT_FORMAT_OBJECT }
+    );
+
+    return groupRelationshipRows(((result.rows || []) as Record<string, unknown>[]).map(row => ({
+      constraintName: String(row.CONSTRAINT_NAME),
+      fromSchema: row.FROM_SCHEMA as string,
+      fromTable: String(row.FROM_TABLE),
+      fromColumn: String(row.FROM_COLUMN),
+      toSchema: row.TO_SCHEMA as string,
+      toTable: String(row.TO_TABLE),
+      toColumn: String(row.TO_COLUMN),
+    })));
   }
 
   async setReadOnly(readOnly: boolean): Promise<void> {
