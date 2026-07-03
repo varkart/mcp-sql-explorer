@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import { applyRowWindow } from './base.js';
 import type { DatabaseAdapter, ReadOnlyEnforcement } from './base.js';
 import type { ConnectionConfig, QueryResult, SchemaInfo, ExecuteOptions, ColumnInfo, TableInfo, ColumnDetail, ForeignKey } from '../../utils/types.js';
 import { ConnectionError, QueryError, TimeoutError } from '../../utils/errors.js';
@@ -90,10 +91,8 @@ export class MySQLAdapter implements DatabaseAdapter {
         nullable: (Number(field.flags ?? 0) & 1) === 0,
       })) : [];
 
-      const maxRows = options.maxRows || 100000;
       const resultRows = Array.isArray(rows) ? rows : [];
-      const slicedRows = resultRows.slice(0, maxRows);
-      const truncated = resultRows.length > maxRows;
+      const { rows: slicedRows, truncated } = applyRowWindow(resultRows, options);
 
       logger.debug('MySQL query executed', { rowCount: slicedRows.length, executionTimeMs });
 
