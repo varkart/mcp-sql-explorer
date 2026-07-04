@@ -113,6 +113,8 @@ Located in `test/integration/`, covering:
 - Multi-database operations
 - Schema caching
 
+SQLite and DuckDB run in-process and are covered by the unit tests. Oracle has no live coverage (optional driver).
+
 ---
 
 ## Test Containers
