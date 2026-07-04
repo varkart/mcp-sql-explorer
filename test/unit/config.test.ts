@@ -34,7 +34,8 @@ describe('Config Unit Tests', () => {
 
   describe('loadConfig with a config file', () => {
     it('env vars take precedence over the file defaults', async () => {
-      const path = join(tmpdir(), `sql-lens-mcp-config-test-${Date.now()}.json`);
+      const dir = await fs.mkdtemp(join(tmpdir(), 'sql-lens-mcp-config-test-'));
+      const path = join(dir, 'config.json');
       await fs.writeFile(path, JSON.stringify({
         defaults: { readOnly: true, queryTimeout: 25000, maxRows: 25 },
       }));
@@ -46,7 +47,7 @@ describe('Config Unit Tests', () => {
         expect(config!.defaults.maxRows).to.equal(5);
         expect(config!.defaults.queryTimeout).to.equal(25000);
       } finally {
-        await fs.unlink(path);
+        await fs.rm(dir, { recursive: true, force: true });
       }
     });
   });
