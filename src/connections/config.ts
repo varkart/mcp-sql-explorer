@@ -32,15 +32,29 @@ export async function loadConfig(configPath?: string): Promise<ServerConfig | nu
     }
   }
 
+  if (process.env.SQL_LENS_MCP_MAX_ROWS || process.env.SQL_LENS_MCP_QUERY_TIMEOUT) {
+    logger.debug('No config file found, applying env var defaults');
+    return processConfig({});
+  }
+
   logger.debug('No config file found, using defaults');
   return null;
 }
 
 function processConfig(config: any): ServerConfig {
-  const defaults = config.defaults || {
+  const fileDefaults = config.defaults || {
     readOnly: true,
     queryTimeout: 25000,
     maxRows: 25,
+  };
+
+  const envMaxRows = parseInt(process.env.SQL_LENS_MCP_MAX_ROWS ?? '', 10);
+  const envQueryTimeout = parseInt(process.env.SQL_LENS_MCP_QUERY_TIMEOUT ?? '', 10);
+
+  const defaults = {
+    ...fileDefaults,
+    maxRows: Number.isNaN(envMaxRows) ? fileDefaults.maxRows : envMaxRows,
+    queryTimeout: Number.isNaN(envQueryTimeout) ? fileDefaults.queryTimeout : envQueryTimeout,
   };
 
   const connections: Record<string, any> = {};
