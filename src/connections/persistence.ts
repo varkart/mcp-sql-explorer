@@ -4,7 +4,7 @@ import { homedir } from 'os';
 import type { ConnectionEntry } from '../utils/types.js';
 import { logger } from '../utils/logger.js';
 
-const SQL_LENS_MCP_DIR = join(homedir(), '.sql-lens-mcp');
+const SQL_LENS_MCP_DIR = process.env.SQL_LENS_MCP_HOME || join(homedir(), '.sql-lens-mcp');
 const CONNECTIONS_FILE = join(SQL_LENS_MCP_DIR, 'connections.json');
 
 export async function ensureDirectory(): Promise<void> {
